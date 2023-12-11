@@ -1,0 +1,23 @@
+.footerContainer {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 55px;
+  //   a {
+  //     display: flex;
+  //   }
+  p {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  .footerContainer {
+    font-size: 14px;
+  }
+}

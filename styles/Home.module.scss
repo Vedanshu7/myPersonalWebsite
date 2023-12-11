@@ -1,0 +1,142 @@
+.home {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  height: 100vh;
+}
+.homeContainer {
+  display: flex;
+  // align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.downarrowbutton {
+  // //background-color: #333; /* Dark background color */
+  // //color: #fff;
+  // border: none;
+  margin-left: 50%;
+  margin-right: 50%;
+  margin-top: 12%;
+  width: 5vw;
+  height: 5vh;
+  animation: highlight 1s infinite alternate;
+}
+
+.downarrowbutton:hover{
+  opacity: 1;
+  animation-play-state: paused;
+}
+
+@keyframes highlight {
+  // 0% {
+  //   opacity: 0.5;
+  //   transform: rotate(0deg);
+  // }
+  // 50%{
+  //   transform: rotate(180deg);
+  // }
+  // 100% {
+  //   opacity: 1;
+  //   transform: rotate(0deg);
+  // }
+
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+.textContainer {
+  flex: 2;
+  padding: 50px;
+  padding-bottom: 20px;
+  padding-top: 100px;
+  margin-left: 25%;
+  margin-right: 15%;
+
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  h1 {
+    font-size: 70px;
+    margin: 0px;
+  }
+  h2 {
+    margin: 0px;
+    font-weight: 400;
+    font-size: 35px;
+  }
+  h3 {
+    margin: 0px;
+    font-weight: 400;
+    font-size: 33px;
+  }
+}
+.imageContainer {
+  flex: 1.7;
+  padding-top: 20px;
+  text-align: center;
+  border-radius: 20px;
+  background-color: var(--mantine-color-custom-background-0);
+}
+
+.iconContainer {
+  margin-top: 10px;
+  margin-left: -5px;
+  button {
+  }
+  a {
+    display: inline-block;
+  }
+}
+.iconInnerContainer {
+  background-color: var(--mantine-color-custom-background-0);
+  margin: 5px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  // display: inline-block;
+  display: flex;
+  // width: 150px;
+  // flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  svg {
+    margin-right: 5px;
+  }
+}
+@media only screen and (max-width: 850px) {
+  .textContainer {
+    padding: 20px;
+  }
+  .textContainer {
+    h1 {
+      font-size: 40px;
+    }
+    h2 {
+      font-size: 20px;
+    }
+    h3 {
+      font-size: 20px;
+    }
+  }
+}
+@media only screen and (max-width: 620px) {
+  .textContainer {
+    h1 {
+      // font-size: 40px;
+    }
+  }
+  .textContainer {
+    padding: 20px;
+    padding-bottom: 40px;
+  }
+  .homeContainer {
+    flex-direction: column;
+  }
+}
