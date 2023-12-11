@@ -42,17 +42,17 @@ function Contact() {
   }, [state.succeeded])
   // first
   useEffect(() => {
-    if (state.errors.length > 0) {
-      showNotification({
-        title: 'Sorry! Something went wrong',
-        message: 'Please try again',
-        // icon: <CircleCheck size={500}/>,
-        color: 'red',
-      })
-    }
-    return () => {
-      //   second
-    }
+    // if (state.errors.length > 0) {
+    //   showNotification({
+    //     title: 'Sorry! Something went wrong',
+    //     message: 'Please try again',
+    //     // icon: <CircleCheck size={500}/>,
+    //     color: 'red',
+    //   })
+    // }
+    // return () => {
+    //   //   second
+    // }
   }, [state])
 
   return (
