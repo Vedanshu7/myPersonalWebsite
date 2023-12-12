@@ -1,14 +1,6 @@
 import SwiftSearchImg from './project-image/cloudschool.png'
-import HabbitSpaceImg from './project-image/habbit-space.png'
 import AppointMeetImg from './project-image/appoint-meet.png'
-import ParkSpotImg from './project-image/park-spot.png'
-import EmployeeManagementSystemImg from './project-image/employee-management-system.png'
-import MissingPersonReportImg from './project-image/missing-person-report.png'
-import VehicleSpeedDetectionImg from './project-image/vehicle-speed-detection.png'
 import SmartHomeImg from './project-image/home-automation.png'
-import PomodoroTimerImg from './project-image/pomodoro-timer.png'
-import VolumeLimiterImg from './project-image/volume-limiter.png'
-import VacFaceImg from './project-image/vacface.png'
 import smartskillhubImg from './project-image/samrtskillhub.jpg'
 import ARIVisionImg from './project-image/arivision.jpg'
 import bstImg from './project-image/bst.png'
@@ -24,13 +16,11 @@ import javaScriptSvg from './technology-icon/javascript.svg'
 import typeScriptSvg from './technology-icon/typescript.svg'
 import pythonSvg from './technology-icon/python.svg'
 import cSharpSvg from './technology-icon/c-sharp.svg'
-import opencvSvg from './technology-icon/opencv.svg'
 import arduinoSvg from './technology-icon/arduino.svg'
 import androidSvg from './technology-icon/android.svg'
 import nodejsSvg from './technology-icon/nodejs.svg'
 import djangoSvg from './technology-icon/django.svg'
 import reactSvg from './technology-icon/react.svg'
-import EjsSvg from './technology-icon/ejs.svg'
 import postgresqlSvg from './technology-icon/postgresql.svg'
 import expressSvg from './technology-icon/express.svg'
 import dotNetSvg from './technology-icon/dotnet.svg'
@@ -41,30 +31,14 @@ import redisSvg from './technology-icon/redis.svg'
 import azureSvg from './technology-icon/azure.svg'
 import dockerSvg from './technology-icon/docker.svg'
 import githubActionsSvg from './technology-icon/github-actions.svg'
-import elasticsearchSvg from './technology-icon/elasticsearch.svg'
-import expoSvg from './technology-icon/expo.svg'
-import chakraUiSvg from './technology-icon/chakra-ui.svg'
-import kibanaSvg from './technology-icon/kibana.svg'
-import digitalOceanSvg from './technology-icon/digital-ocean.svg'
-import pwaSvg from './technology-icon/pwa.svg'
-import uiKittenSvg from './technology-icon/ui-kitten.svg'
-import antDesignSvg from './technology-icon/ant-design.svg'
 import herokuSvg from './technology-icon/heroku.svg'
 
-import jestSvg from './technology-icon/jest.svg'
-import playwrightSvg from './technology-icon/playwright.svg'
+
 import htmlSvg from './technology-icon/html-5.svg'
 import cssSvg from './technology-icon/css-3.svg'
-import sassSvg from './technology-icon/sass.svg'
-import nextjsSvg from './technology-icon/nextjs.svg'
-import gatsbySvg from './technology-icon/gatsby.svg'
-import nginxSvg from './technology-icon/nginx.svg'
 import gitSvg from './technology-icon/git-icon.svg'
-import elkSvg from './technology-icon/elk.svg'
-import datadogSvg from './technology-icon/datadog.svg'
 import advancedSvg from './technology-icon/advanced-logo-header.svg'
 import microsvSvg from './technology-icon/microservicesdotnet.svg'
-import mysqlSvg from './technology-icon/mysql-official.svg'
 import gatewaySvg from './technology-icon/gatewaylogo.svg'
 import mssqlSvg from './technology-icon/mssql.svg'
 import phpSvg from './technology-icon/php.svg'
@@ -129,7 +103,7 @@ export let projects = [
       'Maintained a Win-Forms-based leasing management application for a German automobile manufacturer. Developed many features that help with leasing calculations, which allow users to eliminate the complexities associated with managing their car leases. Created robust API that handles the various front-end requests and translates the data into English.',
     button: {
       viewCodeUrl: '',
-      viewProjectUrl: '#',
+      viewProjectUrl: '',
     },
     technologyUsed: [
       { name: "Compnay Project", img: gatewaySvg },
@@ -151,7 +125,7 @@ export let projects = [
     descriptionLong:
       'Created a B2B solution for lead management targeted at the 400+ car dealers across the world. Implemented the functions like Lead Tracking, Lead Auto- scheduling, Lead Similarity, etc. Developed an API endpoint for lead acceptance which is generic for all the formats. Utilized data analytics techniques to analyze leads data and implement lead classification strategies, resulting in increased lead hits. Deployed the solution on cloud services like Azure App Service, Azure Jobs, and Azure SQL Server.',
     button: {
-      viewCodeUrl: 'https://github.com/me-heer/LeadManagementSystem',
+      viewCodeUrl: 'https://github.com/Vedanshu7/LeadManagementSystem',
       viewProjectUrl: '',
     },
     technologyUsed: [

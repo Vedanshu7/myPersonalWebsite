@@ -40,7 +40,7 @@ export default function App(props) {
   return (
     <>
       <Head>
-        <title>Fenil Kaneria</title>
+        <title>Vedanshu Joshi</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -60,13 +60,13 @@ export default function App(props) {
           withCSSVariables
           withGlobalStyles
           withNormalizeCSS
-          // theme={{
-          //   /** Put your mantine theme override here */
-          //   colorScheme: "light",
-          // colors: {
-          //   "custom-background": ["#f8f9fa"],
-          // },
-          // }}
+        // theme={{
+        //   /** Put your mantine theme override here */
+        //   colorScheme: "light",
+        // colors: {
+        //   "custom-background": ["#f8f9fa"],
+        // },
+        // }}
         >
           <NotificationsProvider>
             <Component {...pageProps} />

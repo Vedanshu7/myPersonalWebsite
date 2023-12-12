@@ -18,6 +18,7 @@ export default function Index() {
       <Head>
         <title>Vedanshu Joshi</title>
         <link rel="icon" href="/favicon.ico" />
+        <link href='https://fonts.googleapis.com/css?family=Silkscreen' rel='stylesheet' />
         <meta name="description" content="Vedanshu Joshi" />
         <meta name="keywords" content="Vedanshu Joshi,vedanshu,joshi, vedanshu7" />
       </Head>

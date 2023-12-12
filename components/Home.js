@@ -20,10 +20,6 @@ import {
 
 function Home() {
 
-  const [currentFont, setCurrentFont] = useState(0);
-
-
-
   const handleScroll = () => {
     // Scroll to the referenced element
     const projectsElement = document.getElementById('projects');
