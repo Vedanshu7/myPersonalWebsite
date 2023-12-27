@@ -10,17 +10,15 @@ export default class _Document extends Document {
     return (
       <Html>
         <Head>
-          <script
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=G-CFPWZ43SP8`}
-          />
+        <link href='https://fonts.googleapis.com/css?family=Silkscreen' rel='stylesheet' />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-4ZFR4CSDGB"></script>
           <script
             dangerouslySetInnerHTML={{
               __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+            gtag('config', 'G-4ZFR4CSDGB', {
               page_path: window.location.pathname,
             });
           `,
