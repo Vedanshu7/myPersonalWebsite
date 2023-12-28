@@ -10,6 +10,7 @@ import jbtImg from './project-image/jobtracker.png'
 import brsImg from './project-image/brs.png'
 import vtransImg from './project-image/vtrans.png'
 import rrsImg from './project-image/rrs.jpg'
+import ppasImg from './project-image/pps.png'
 
 import javaSvg from './technology-icon/java.svg'
 import javaScriptSvg from './technology-icon/javascript.svg'
@@ -182,7 +183,24 @@ export let projects = [
       { name: "MSSQL", img: mssqlSvg }
     ],
   },
-
+  {
+    title: 'Personality Prediction Using Decision Tree',
+    projectURL: 'appoint-meet',
+    type: 'Web Application',
+    projectImg: ppasImg,
+    // DetailsImage:AppointMeetDetailsImage,
+    descriptionShort:
+      'An application to predict an individual/’s personality by employing a decision tree algorithm. An adaptive questionnaire that adjusts based on user responses, optimizing the prediction process.',
+    descriptionLong:
+      'Developed an application to predict an individual’s personality by employing a decision tree algorithm. This predictive model is constructed by posing specific questions to the user, and the resulting personality prediction has diverse applications, including hiring and recruiting, marketing strategies, and mental health diagnosis and treatment. Implementing an adaptive questionnaire that adjusts based on user responses, optimizing the prediction process.',
+    button: {
+      viewCodeUrl: 'https://github.com/Vedanshu7/Personality-Prediction-Using-Decision-Tree',
+      viewProjectUrl: '',
+    },
+    technologyUsed: [
+      { name: 'Python', img: pythonSvg }
+    ],
+  },
   {
     title: 'Book Recommendation System',
     projectURL: 'appoint-meet',
