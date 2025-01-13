@@ -31,7 +31,7 @@ function Home() {
 
 
   return (
-    <div className={styles.home}>
+    <div align="center" className={styles.home}>
       <div className={styles.homeContainer}>
         <div className={styles.textContainer}>
           <h3>Hello 👋, I am </h3>
@@ -62,26 +62,6 @@ function Home() {
               <div className={styles.iconInnerContainer}>
                 <BrandLinkedin color='#0a66c2' size={30} />
                 <span>LinkedIn</span>
-              </div>
-            </a>
-            <a
-              href="https://twitter.com/You_Kn0w_WhoIam"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className={styles.iconInnerContainer}>
-                <BrandTwitter color='skyblue' size={30} />
-                <span>Twitter</span>
-              </div>
-            </a>
-            <a
-              href="https://leetcode.com/Vedanshu37/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className={styles.iconInnerContainer}>
-                <Code color='orange' size={30} />
-                <span>LeetCode</span>
               </div>
             </a>
           </div>

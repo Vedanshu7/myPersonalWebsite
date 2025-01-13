@@ -6,6 +6,13 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
+  images: {
+    domains: [
+      'cdn.jsdelivr.net',
+      'www.vectorlogo.zone',
+      'github.com'
+    ],
+  },
 };
 
 module.exports = nextConfig;

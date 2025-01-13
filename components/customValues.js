@@ -356,4 +356,64 @@ export let technologyList = [
   { name: 'MSSQL', icon: mssqlSvg },
   { name: 'C++', icon: cplusSvg },
   { name: 'Chrome Extension', icon: chromeSvg },
+  { 
+    name: 'ASP.NET MVC 5', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'ASP.NET Core 6', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'Entity Framework Core', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dotnetcore/dotnetcore-original.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'LINQ', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'Redux', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'AWS', 
+    icon: 'https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-ar21.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'RabbitMQ', 
+    icon: 'https://www.vectorlogo.zone/logos/rabbitmq/rabbitmq-icon.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'Oracle Database', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/oracle/oracle-original.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'Airflow', 
+    icon: 'https://www.vectorlogo.zone/logos/apache/apache-ar21.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'Pandas', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'NumPy', 
+    icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg',
+    isLocal: false 
+  },
+  { 
+    name: 'Kafka', 
+    icon: 'https://www.vectorlogo.zone/logos/apache_kafka/apache_kafka-icon.svg',
+    isLocal: false 
+  }
 ]

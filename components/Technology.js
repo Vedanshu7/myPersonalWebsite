@@ -1,7 +1,7 @@
 import styles from '../styles/Technology.module.scss'
 
 import Image from 'next/image'
-import { Card } from '@mantine/core'
+import { Card, Center } from '@mantine/core'
 
 import { technologyList } from './customValues.js'
 function Technology() {
@@ -16,15 +16,15 @@ function Technology() {
               <Image
                 src={tech.icon}
                 width={75}
-                height={90}
+                height={75}
                 // width={'100%'}
                 //   width={'100%'}
                 //   height={120}
-                objectFit="contain"
+                objectFit="fit"
                 alt="Project Img"
                 layout="fixed"
               />
-              <h3>{tech.name}</h3>
+              <h5 align="center">{tech.name}</h5>
             </Card.Section>
           </Card>
         ))}
