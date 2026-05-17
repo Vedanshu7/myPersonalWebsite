@@ -24,7 +24,7 @@ export default function Certifications() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] as const }}
               className="group flex items-start justify-between gap-4 border border-border rounded-lg px-5 py-4 hover:bg-card/50 hover:border-foreground/20 transition-all duration-200 flex-1"
             >
               <div className="flex-1 min-w-0">

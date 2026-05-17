@@ -60,7 +60,7 @@ function ContributionRow({ item, index }: { item: OpenSourceItem; index: number 
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, delay: (index % 10) * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.4, delay: (index % 10) * 0.05, ease: [0.25, 0.46, 0.45, 0.94] as const }}
       className="group grid grid-cols-[1fr_auto] gap-4 py-3.5 border-b border-border last:border-b-0 hover:bg-card/50 transition-colors duration-200 -mx-3 px-3 rounded-sm"
     >
       <div className="min-w-0">

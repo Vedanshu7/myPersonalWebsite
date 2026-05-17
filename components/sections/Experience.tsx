@@ -18,7 +18,7 @@ function Row({ title, organization, period, index }: RowProps) {
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] as const }}
       className="group grid grid-cols-[160px_1fr] gap-6 py-4 border-b border-border last:border-b-0 hover:bg-card/50 transition-colors duration-200 cursor-default -mx-3 px-3 rounded-sm"
     >
       <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider leading-relaxed pt-0.5 tabular-nums">
