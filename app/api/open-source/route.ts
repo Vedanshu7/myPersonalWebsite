@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { env } from "@/lib/env";
 
+export const revalidate = 86400;
+
 export interface OpenSourceItem {
   id: number;
   type: "pr" | "issue";
