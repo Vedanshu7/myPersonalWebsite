@@ -38,6 +38,9 @@
     "tailwindcss": "^3.4.19",
     "zod": "^4.4.3"
   },
+  "engines": {
+    "node": "24.x"
+  },
   "devDependencies": {
     "@types/node": "^25.8.0",
     "@types/react": "^19.2.14",
