@@ -45,20 +45,22 @@ export default function ContributionGrid({ weeks }: Props) {
   useEffect(() => {
     const labels: TimeLabel[] = [];
     let lastMonth = -1;
+    const now = new Date();
 
     data.forEach((week, wi) => {
       let dateStr = week.days.find((d) => d.date)?.date;
 
       if (!dateStr) {
-        const today = new Date();
-        const synth = new Date(today);
-        synth.setDate(today.getDate() - (data.length - wi) * 7);
+        const synth = new Date(now);
+        synth.setDate(now.getDate() - (data.length - wi) * 7);
         dateStr = synth.toISOString().split("T")[0];
       }
 
       const date = new Date(dateStr + "T12:00:00");
       const month = date.getMonth();
       const year = date.getFullYear();
+
+      if (year > now.getFullYear() || (year === now.getFullYear() && month > now.getMonth())) return;
 
       if (month !== lastMonth) {
         labels.push({ wi, endWi: 0, text: `${MONTHS[month]} '${String(year).slice(2)}` });
@@ -77,7 +79,10 @@ export default function ContributionGrid({ weeks }: Props) {
 
   // ── Window state ──
   const [windowTop, setWindowTop] = useState(0);
+  const windowTopRef = useRef(0);
   const windowTopInitialized = useRef(false);
+  const [bounceLeft, setBounceLeft] = useState(false);
+  const bounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (timeLabels.length > 0 && !windowTopInitialized.current) {
@@ -137,12 +142,23 @@ export default function ContributionGrid({ weeks }: Props) {
         wheelAccum.current -= steps * STEP;
         const winSize = Math.min(12, labels.length);
         const max = Math.max(0, labels.length - winSize);
-        setWindowTop((prev) => Math.max(0, Math.min(max, prev + steps)));
+        const next = Math.max(0, Math.min(max, windowTopRef.current + steps));
+        if (next === windowTopRef.current) {
+          if (bounceTimer.current) clearTimeout(bounceTimer.current);
+          setBounceLeft(true);
+          bounceTimer.current = setTimeout(() => setBounceLeft(false), 160);
+        } else {
+          windowTopRef.current = next;
+          setWindowTop(next);
+        }
       }
     };
 
     el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
+    return () => {
+      el.removeEventListener("wheel", onWheel);
+      if (bounceTimer.current) clearTimeout(bounceTimer.current);
+    };
   }, []);
 
   const handlePanelLeave = () => {
@@ -158,7 +174,7 @@ export default function ContributionGrid({ weeks }: Props) {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
       {/* Contribution cells — only the selected year's data */}
-      <div className="absolute inset-0" style={{ opacity: 0.28, padding: "24px" }}>
+      <div className="absolute inset-0" style={{ opacity: 0.5, padding: "24px" }}>
         <div
           style={{
             display: "grid",
@@ -208,7 +224,7 @@ export default function ContributionGrid({ weeks }: Props) {
       <div
         ref={panelRef}
         className="absolute left-0 top-0 bottom-0"
-        style={{ width: "140px", pointerEvents: "auto" }}
+        style={{ width: "260px", pointerEvents: "auto" }}
         onMouseEnter={() => setPanelHovered(true)}
         onMouseLeave={handlePanelLeave}
       >
@@ -222,7 +238,7 @@ export default function ContributionGrid({ weeks }: Props) {
               display: "flex",
               flexDirection: "column",
               gap: 2,
-              opacity: panelHovered ? 0 : 0.5,
+              opacity: panelHovered ? 0 : 0.85,
               transition: "opacity 0.35s ease",
               zIndex: 1,
             }}
@@ -280,11 +296,12 @@ export default function ContributionGrid({ weeks }: Props) {
           )}
 
           {/* Full-height sliding month list */}
-          <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
+          <div style={{ position: "absolute", inset: 0, overflow: "hidden", perspective: "600px", perspectiveOrigin: "left 50%", transform: bounceLeft ? "translateX(-16px)" : "translateX(0)", transition: bounceLeft ? "transform 0.08s ease-in" : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
             <div
               style={{
                 transform: `translateY(calc(-${windowTop} * (100vh / ${WIN_SIZE})))`,
                 transition: "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                transformStyle: "preserve-3d",
               }}
             >
               {reversedLabels.map((label, i) => {
@@ -292,7 +309,17 @@ export default function ContributionGrid({ weeks }: Props) {
                 const inView = slotIdx >= 0 && slotIdx < WIN_SIZE;
                 const halfWin = Math.max((WIN_SIZE - 1) / 2, 1);
                 const dist = inView ? Math.abs(slotIdx - halfWin) / halfWin : 1;
-                const opacity = inView ? Math.max(0.25, 1 - dist * 0.6) : 0;
+                const opacity = inView ? 0.6 + 0.4 * (1 - dist) : 0;
+
+                // Arc curve: center items protrude right, edge items pull left.
+                // cos curve gives a smooth round arc — dist=0 → offset=0, dist=1 → offset=-18px.
+                // Center items bow right (max indent), edges stay at base — nothing clips left.
+                const arcOffset = Math.round(Math.cos(dist * Math.PI * 0.5) * 160);
+                const scale = Math.max(0.72, 1 - dist * 0.28);
+                const angleDeg = (slotIdx - halfWin) * 9;
+                const angleRad = angleDeg * (Math.PI / 180);
+                const tz = Math.round(420 * (Math.cos(angleRad) - 1));
+
                 return (
                   <div
                     key={label.wi}
@@ -300,10 +327,13 @@ export default function ContributionGrid({ weeks }: Props) {
                       height: `calc(100vh / ${WIN_SIZE})`,
                       display: "flex",
                       alignItems: "center",
-                      paddingLeft: "20px",
+                      paddingLeft: "24px",
                       gap: "7px",
                       opacity,
-                      transition: "opacity 0.25s ease",
+                      transform: `rotateX(${angleDeg}deg) translateZ(${tz}px) translateX(${arcOffset}px) scale(${scale})`,
+                      transformOrigin: "left center",
+                      backfaceVisibility: "hidden",
+                      transition: "opacity 0.25s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
                     }}
                   >
                     <div
@@ -340,8 +370,8 @@ export default function ContributionGrid({ weeks }: Props) {
                 pointerEvents: "none",
                 background: `linear-gradient(to bottom,
                 rgba(var(--grid-overlay-rgb), 1) 0%,
-                rgba(var(--grid-overlay-rgb), 0) 18%,
-                rgba(var(--grid-overlay-rgb), 0) 82%,
+                rgba(var(--grid-overlay-rgb), 0) 5%,
+                rgba(var(--grid-overlay-rgb), 0) 95%,
                 rgba(var(--grid-overlay-rgb), 1) 100%)`,
               }}
             />
@@ -365,7 +395,7 @@ export default function ContributionGrid({ weeks }: Props) {
                   fontSize: 8,
                   fontFamily: "monospace",
                   color: "var(--grid-level-3)",
-                  opacity: 0.35,
+                  opacity: 0.65,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase" as const,
                 }}
@@ -377,7 +407,7 @@ export default function ContributionGrid({ weeks }: Props) {
                   fontSize: 9,
                   fontFamily: "monospace",
                   color: "var(--grid-level-3)",
-                  opacity: 0.6,
+                  opacity: 0.9,
                   whiteSpace: "nowrap",
                 }}
               >

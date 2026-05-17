@@ -152,7 +152,7 @@ export default function Hero({ contributionWeeks }: HeroProps) {
           href="https://github.com/vedanshu7"
           target="_blank"
           rel="noopener noreferrer"
-          className="absolute bottom-8 right-8 flex items-center gap-1.5 opacity-30 hover:opacity-60 transition-opacity"
+          className="absolute bottom-8 right-8 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
         >
           <GithubIcon size={11} className="text-green-500" />
           <span className="font-mono text-[10px] text-green-500 tracking-wide">

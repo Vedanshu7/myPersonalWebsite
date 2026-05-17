@@ -22,8 +22,8 @@ const BASE = "https://vedanshujoshi.com";
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
   title: {
-    default: "Vedanshu Joshi — Software Engineer",
-    template: "%s — Vedanshu Joshi",
+    default: "Vedanshu Joshi | Software Engineer",
+    template: "%s | Vedanshu Joshi",
   },
   description:
     "Vedanshu Joshi is a Software Engineer with an MS in Computer Science from Purdue University, specializing in full-stack systems across .NET, React, Node.js, and cloud infrastructure.",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     canonical: BASE,
   },
   openGraph: {
-    title: "Vedanshu Joshi — Software Engineer",
+    title: "Vedanshu Joshi | Software Engineer",
     description:
       "Full-stack engineer with MS Computer Science from Purdue University. Building systems with .NET, React, Node.js, and cloud.",
     url: BASE,
@@ -69,13 +69,13 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Vedanshu Joshi — Software Engineer",
+        alt: "Vedanshu Joshi | Software Engineer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vedanshu Joshi — Software Engineer",
+    title: "Vedanshu Joshi | Software Engineer",
     description: "Full-stack engineer with MS Computer Science from Purdue University.",
     images: ["/opengraph-image"],
     creator: "@vedanshu7",

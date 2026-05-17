@@ -1,18 +1,6 @@
 import ScrollReveal from "@/components/ScrollReveal";
 import SectionHeader from "@/components/SectionHeader";
-import { getBaseUrl } from "@/lib/utils";
-import type { MediumPost } from "@/app/api/medium/route";
-
-async function getPosts(): Promise<MediumPost[]> {
-  try {
-    const res = await fetch(`${getBaseUrl()}/api/medium`, { next: { revalidate: 86400 } });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.posts ?? [];
-  } catch {
-    return [];
-  }
-}
+import { fetchMediumPosts } from "@/lib/medium";
 
 function formatDate(raw: string): string {
   try {
@@ -27,7 +15,7 @@ function formatDate(raw: string): string {
 }
 
 export default async function Writing() {
-  const posts = await getPosts();
+  const posts = await fetchMediumPosts();
   if (posts.length === 0) return null;
 
   return (

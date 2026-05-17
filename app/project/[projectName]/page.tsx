@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ projectNa
     description: project.descriptionShort,
     alternates: { canonical: url },
     openGraph: {
-      title: `${project.title} — Vedanshu Joshi`,
+      title: `${project.title} | Vedanshu Joshi`,
       description: project.descriptionShort,
       url,
       type: "article",
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ projectNa
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.title} — Vedanshu Joshi`,
+      title: `${project.title} | Vedanshu Joshi`,
       description: project.descriptionShort,
       images: [project.projectImg],
     },

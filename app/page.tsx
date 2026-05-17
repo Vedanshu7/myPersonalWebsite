@@ -15,51 +15,10 @@ import PageWrapper from "@/components/PageWrapper";
 import SectionSkeleton from "@/components/SectionSkeleton";
 import { getEditableContent } from "@/lib/content";
 import { getKVProjects, mergeProjects } from "@/lib/projects";
-import { getBaseUrl } from "@/lib/utils";
-import type { ContributionWeek } from "@/app/api/contributions/route";
-import type { GithubStats } from "@/app/api/github-stats/route";
-import type { OpenSourceItem } from "@/app/api/open-source/route";
-
-async function fetchContributions(): Promise<ContributionWeek[]> {
-  try {
-    const res = await fetch(`${getBaseUrl()}/api/contributions`, {
-      next: { revalidate: 86400 },
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.weeks ?? [];
-  } catch {
-    return [];
-  }
-}
-
-async function fetchOpenSource(): Promise<OpenSourceItem[]> {
-  try {
-    const res = await fetch(`${getBaseUrl()}/api/open-source`, {
-      next: { revalidate: 86400 },
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return data.items ?? [];
-  } catch {
-    return [];
-  }
-}
-
-async function fetchGithubStats(): Promise<GithubStats> {
-  try {
-    const res = await fetch(`${getBaseUrl()}/api/github-stats`, {
-      next: { revalidate: 86400 },
-    });
-    if (!res.ok) throw new Error();
-    return await res.json();
-  } catch {
-    return { publicRepos: 0, followers: 0, totalStars: 0 };
-  }
-}
+import { fetchContributionWeeks, fetchOpenSourceItems, fetchGithubStats } from "@/lib/github";
 
 async function HeroSection() {
-  const weeks = await fetchContributions();
+  const weeks = await fetchContributionWeeks();
   return <Hero contributionWeeks={weeks} />;
 }
 
@@ -69,7 +28,7 @@ async function AboutSection() {
 }
 
 async function OpenSourceSection() {
-  const items = await fetchOpenSource();
+  const items = await fetchOpenSourceItems();
   return <OpenSource items={items} />;
 }
 
