@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { Project } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { ExternalLink, ArrowUpRight } from "lucide-react";
 
 function GithubIcon({ size = 13, className }: { size?: number; className?: string }) {
@@ -28,8 +28,11 @@ interface ProjectCardProps {
   index: number;
 }
 
+const FALLBACK_IMG = "/project-image/fallback.svg";
+
 export default function ProjectCard({ project, index }: ProjectCardProps) {
   const [open, setOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState(project.projectImg);
 
   return (
     <>
@@ -39,7 +42,8 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       >
         <div className="relative aspect-video overflow-hidden bg-secondary">
           <Image
-            src={project.projectImg}
+            src={imgSrc}
+            onError={() => setImgSrc(FALLBACK_IMG)}
             alt={project.title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -83,88 +87,87 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <div className="flex items-center gap-3 mb-1">
-              <span className="font-mono text-xs text-muted-foreground border border-border rounded px-1.5 py-0.5">
+        <DialogContent className="max-w-2xl p-0 overflow-hidden gap-0 max-h-[90vh] flex flex-col">
+          {/* Hero image with title overlay */}
+          <div className="relative w-full shrink-0" style={{ aspectRatio: "16/7" }}>
+            <Image
+              src={imgSrc}
+            onError={() => setImgSrc(FALLBACK_IMG)}
+              alt={project.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 672px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <span className="font-mono text-[10px] text-white/60 uppercase tracking-[0.2em]">
                 {project.type}
               </span>
+              <DialogTitle className="text-xl font-bold text-white mt-1 leading-tight">
+                {project.title}
+              </DialogTitle>
             </div>
-            <DialogTitle className="text-2xl font-bold text-foreground">
-              {project.title}
-            </DialogTitle>
-          </DialogHeader>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
-            <div className="relative aspect-video rounded-lg overflow-hidden bg-secondary">
-              <Image
-                src={project.projectImg}
-                alt={project.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
+          {/* Content */}
+          <div className="overflow-y-auto flex flex-col gap-5 p-6">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              {project.descriptionLong}
+            </p>
 
-            <div className="flex flex-col gap-4">
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {project.descriptionLong}
+            <div>
+              <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em] mb-3">
+                Stack
               </p>
-
-              <div>
-                <p className="font-mono text-xs text-muted-foreground uppercase tracking-wide mb-2">
-                  Technologies
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.technologyUsed.map((tech) => (
-                    <div
-                      key={tech.name}
-                      className="flex items-center gap-1.5 border border-border rounded px-2 py-1"
-                    >
-                      {tech.img && (
-                        <Image
-                          src={tech.img}
-                          alt={tech.name}
-                          width={14}
-                          height={14}
-                          className="object-contain"
-                        />
-                      )}
-                      <span className="font-mono text-[11px] text-muted-foreground">
-                        {tech.name}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex gap-3 mt-auto pt-2">
-                {project.button.viewCodeUrl && (
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="rounded-full font-mono text-xs gap-1.5"
-                    asChild
+              <div className="flex flex-wrap gap-2">
+                {project.technologyUsed.map((tech) => (
+                  <div
+                    key={tech.name}
+                    className="flex items-center gap-1.5 border border-border rounded-md px-2.5 py-1.5 bg-secondary/50"
                   >
-                    <a href={project.button.viewCodeUrl} target="_blank" rel="noopener noreferrer">
-                      <GithubIcon size={13} />
-                      View Code
-                    </a>
-                  </Button>
-                )}
-                {project.button.viewProjectUrl && (
-                  <Button size="sm" className="rounded-full font-mono text-xs gap-1.5" asChild>
-                    <a
-                      href={project.button.viewProjectUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <ExternalLink size={13} />
-                      Live Demo
-                    </a>
-                  </Button>
-                )}
+                    {tech.img && (
+                      <Image
+                        src={tech.img}
+                        alt={tech.name}
+                        width={14}
+                        height={14}
+                        className="object-contain"
+                      />
+                    )}
+                    <span className="font-mono text-[11px] text-foreground/70">
+                      {tech.name}
+                    </span>
+                  </div>
+                ))}
               </div>
+            </div>
+
+            <div className="flex gap-3 pt-4 border-t border-border">
+              {project.button.viewCodeUrl && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="rounded-full font-mono text-xs gap-1.5"
+                  asChild
+                >
+                  <a href={project.button.viewCodeUrl} target="_blank" rel="noopener noreferrer">
+                    <GithubIcon size={13} />
+                    View Code
+                  </a>
+                </Button>
+              )}
+              {project.button.viewProjectUrl && (
+                <Button size="sm" className="rounded-full font-mono text-xs gap-1.5" asChild>
+                  <a
+                    href={project.button.viewProjectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink size={13} />
+                    Live Demo
+                  </a>
+                </Button>
+              )}
             </div>
           </div>
         </DialogContent>
