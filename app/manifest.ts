@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Vedanshu Joshi",
     short_name: "Vedanshu",
     description:
-      "Software Engineer with MS from Purdue University. Full-stack systems across .NET, React, Node.js, and cloud.",
+      "Software Engineer with MS from Purdue University. Agentic AI systems, full-stack products, data pipelines, and cloud.",
     start_url: "/",
     display: "standalone",
     background_color: "#000000",

@@ -17,11 +17,15 @@ export default function JsonLd() {
     ],
     knowsAbout: [
       "Full-Stack Development",
+      "Agentic AI Systems",
+      "Data Pipelines",
+      "Distributed Systems",
       "React",
       "Next.js",
-      ".NET",
       "Node.js",
       "TypeScript",
+      "Python",
+      "Go",
       "Cloud Infrastructure",
     ],
   };

@@ -277,6 +277,44 @@ export const technologyList: Technology[] = [
     name: "NumPy",
     icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
   },
+  {
+    name: "FastAPI",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg",
+  },
+  {
+    name: "Flask",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg",
+  },
+  {
+    name: "Apache Airflow",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apacheairflow/apacheairflow-original.svg",
+  },
+  {
+    name: "scikit-learn",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg",
+  },
+  {
+    name: "Prometheus",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg",
+  },
+  {
+    name: "Grafana",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg",
+  },
+  {
+    name: "Kubernetes",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-original.svg",
+  },
+  {
+    name: "SQLite",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg",
+  },
+  { name: "gRPC", icon: "https://www.vectorlogo.zone/logos/grpcio/grpcio-icon.svg" },
+  { name: "NATS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nats/nats-original.svg" },
+  {
+    name: "OpenTelemetry",
+    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opentelemetry/opentelemetry-original.svg",
+  },
 ];
 
 export const educationEvents: TimelineEvent[] = [

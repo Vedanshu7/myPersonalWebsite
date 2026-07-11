@@ -68,7 +68,7 @@ export default function OGImage() {
             letterSpacing: "0.2em",
           }}
         >
-          FULL-STACK · .NET · REACT · NODE.JS
+          AGENTIC AI · FULL-STACK · DATA PIPELINES · CLOUD
         </p>
       </div>
     </div>,

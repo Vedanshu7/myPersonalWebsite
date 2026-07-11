@@ -94,8 +94,8 @@ export default function Hero({ contributionWeeks }: HeroProps) {
               MS Computer Science · Purdue University
             </p>
             <p className="text-muted-foreground text-lg max-w-md text-center">
-              Full-stack engineer with experience across .NET, React, Node.js, cloud infrastructure,
-              and ML systems.
+              Full-stack engineer building agentic AI systems, data pipelines, and cloud-native
+              services.
             </p>
           </div>
 

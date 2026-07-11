@@ -17,10 +17,10 @@ export interface EditableContent {
 }
 
 const DEFAULTS: EditableContent = {
-  bio: "I'm a software engineer with a Master's from Purdue University, specializing in full-stack development, microservices, and cloud architecture. From .NET enterprise systems to ML-powered recommendation engines, I love working across the entire stack.",
+  bio: "I'm a software engineer with a Master's from Purdue University, building full-stack products and the systems behind them, agentic AI workflows, data pipelines, and cloud-native services. I like owning the whole path: from the interface a user touches to the infrastructure that keeps it fast and reliable at scale.",
   yearsExperience: "4+",
   projectCount: "13+",
-  techCount: "42+",
+  techCount: "53+",
   workEvents: defaultWorkEvents,
   educationEvents: defaultEducationEvents,
   techStack: technologyList,
