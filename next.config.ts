@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  experimental: {
+    serverActions: {
+      // Whiteboard scenes (admin scratchpad) can exceed the 1MB default.
+      bodySizeLimit: "4mb",
+    },
+  },
   images: {
     // The optimizer rejects SVG unless this is set, which 400s every local
     // /technology-icon/*.svg and /project-image/*.svg. All SVGs here are

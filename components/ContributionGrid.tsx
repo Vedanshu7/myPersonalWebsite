@@ -1,9 +1,20 @@
 "use client";
 
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import type { ContributionWeek } from "@/app/api/contributions/route";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// Dial geometry: circle center sits off-screen left, labels ride the right half of the rim.
+// Radius is half the hero height, so the rim spans the full page top-to-bottom.
+const STRIP_W = 140;
+const DIAL_R = "50vh";
+const DIAL_CX = -40;
+const STEP_DEG = 13;
+const VISIBLE_DEG = 80;
+const WHEEL_STEP = 80;
+const DRAG_STEP = 48;
+const TOUCH_HIDE_MS = 2500;
 
 interface TimeLabel {
   wi: number;
@@ -74,14 +85,14 @@ export default function ContributionGrid({ weeks }: Props) {
     setTimeLabels(labels);
   }, [data]);
 
-  // Reversed for display: newest at top, oldest at bottom
+  // Reversed for display: newest first (top of the dial's travel), oldest last
   const reversedLabels = useMemo(() => [...timeLabels].reverse(), [timeLabels]);
 
   // ── Window state ──
   const [windowTop, setWindowTop] = useState(0);
   const windowTopRef = useRef(0);
   const windowTopInitialized = useRef(false);
-  const [bounceLeft, setBounceLeft] = useState(false);
+  const [bounceDir, setBounceDir] = useState<-1 | 0 | 1>(0);
   const bounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -92,6 +103,17 @@ export default function ContributionGrid({ weeks }: Props) {
   }, [timeLabels.length]);
 
   const WIN_SIZE = Math.min(12, timeLabels.length);
+
+  // ── Reduced motion ──
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   // ── Compute visible data slice from the current dial window ──
   const visibleData = useMemo(() => {
@@ -116,41 +138,45 @@ export default function ContributionGrid({ weeks }: Props) {
 
   const numWeeks = visibleData.length;
 
-  // ── Refs for native wheel listener ──
+  // ── Input handling: wheel + pointer drag share one stepping path ──
   const [panelHovered, setPanelHovered] = useState(false);
   const wheelAccum = useRef(0);
   const panelRef = useRef<HTMLDivElement>(null);
   const timeLabelsRef = useRef<TimeLabel[]>([]);
+  const dragRef = useRef({ active: false, lastY: 0, accum: 0 });
+  const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     timeLabelsRef.current = timeLabels;
   }, [timeLabels]);
 
+  const applySteps = useCallback((steps: number) => {
+    const labels = timeLabelsRef.current;
+    if (labels.length === 0 || steps === 0) return;
+    const winSize = Math.min(12, labels.length);
+    const max = Math.max(0, labels.length - winSize);
+    const next = Math.max(0, Math.min(max, windowTopRef.current + steps));
+    if (next === windowTopRef.current) {
+      if (bounceTimer.current) clearTimeout(bounceTimer.current);
+      setBounceDir(steps > 0 ? -1 : 1);
+      bounceTimer.current = setTimeout(() => setBounceDir(0), 160);
+    } else {
+      windowTopRef.current = next;
+      setWindowTop(next);
+    }
+  }, []);
+
   useEffect(() => {
     const el = panelRef.current;
     if (!el) return;
 
-    const STEP = 80;
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
-      const labels = timeLabelsRef.current;
-      if (labels.length === 0) return;
-
       wheelAccum.current += e.deltaY;
-      const steps = Math.trunc(wheelAccum.current / STEP);
+      const steps = Math.trunc(wheelAccum.current / WHEEL_STEP);
       if (steps !== 0) {
-        wheelAccum.current -= steps * STEP;
-        const winSize = Math.min(12, labels.length);
-        const max = Math.max(0, labels.length - winSize);
-        const next = Math.max(0, Math.min(max, windowTopRef.current + steps));
-        if (next === windowTopRef.current) {
-          if (bounceTimer.current) clearTimeout(bounceTimer.current);
-          setBounceLeft(true);
-          bounceTimer.current = setTimeout(() => setBounceLeft(false), 160);
-        } else {
-          windowTopRef.current = next;
-          setWindowTop(next);
-        }
+        wheelAccum.current -= steps * WHEEL_STEP;
+        applySteps(steps);
       }
     };
 
@@ -158,22 +184,69 @@ export default function ContributionGrid({ weeks }: Props) {
     return () => {
       el.removeEventListener("wheel", onWheel);
       if (bounceTimer.current) clearTimeout(bounceTimer.current);
+      if (hideTimer.current) clearTimeout(hideTimer.current);
     };
+  }, [applySteps]);
+
+  // Touch has no hover: reveal on contact, hide after a quiet period.
+  const touchReveal = useCallback(() => {
+    setPanelHovered(true);
+    if (hideTimer.current) clearTimeout(hideTimer.current);
+    hideTimer.current = setTimeout(() => setPanelHovered(false), TOUCH_HIDE_MS);
   }, []);
 
-  const handlePanelLeave = () => {
-    setPanelHovered(false);
-    wheelAccum.current = 0;
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    dragRef.current = { active: true, lastY: e.clientY, accum: 0 };
+    e.currentTarget.setPointerCapture(e.pointerId);
+    if (e.pointerType !== "mouse") touchReveal();
   };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const d = dragRef.current;
+    if (!d.active) return;
+    d.accum += e.clientY - d.lastY;
+    d.lastY = e.clientY;
+    const steps = Math.trunc(d.accum / DRAG_STEP);
+    if (steps !== 0) {
+      d.accum -= steps * DRAG_STEP;
+      // Content follows the finger: dragging down rotates newer months into view.
+      applySteps(-steps);
+    }
+    if (e.pointerType !== "mouse") touchReveal();
+  };
+
+  const handlePointerEnd = (e: React.PointerEvent<HTMLDivElement>) => {
+    dragRef.current.active = false;
+    if (e.pointerType !== "mouse") touchReveal();
+  };
+
+  const handlePointerEnter = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse") setPanelHovered(true);
+  };
+
+  const handlePointerLeave = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse") {
+      setPanelHovered(false);
+      wheelAccum.current = 0;
+      dragRef.current.active = false;
+    }
+  };
+
+  // Active detent sits at 3 o'clock; the notch points at it.
+  const ACTIVE_SLOT = Math.floor(WIN_SIZE / 2);
 
   // Range label
   const visibleWindow = reversedLabels.slice(windowTop, windowTop + WIN_SIZE);
   const rangeOldest = visibleWindow[visibleWindow.length - 1]?.text ?? "";
   const rangeNewest = visibleWindow[0]?.text ?? "";
 
+  const arcTransition = reducedMotion
+    ? "none"
+    : "opacity 0.25s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      {/* Contribution cells — only the selected year's data */}
+      {/* Contribution cells — only the selected window's data */}
       <div className="absolute inset-0" style={{ opacity: 0.5, padding: "24px" }}>
         <div
           style={{
@@ -193,7 +266,7 @@ export default function ContributionGrid({ weeks }: Props) {
                 borderRadius: "3px",
                 backgroundColor: `var(--grid-level-${level})`,
                 boxShadow: level >= 3 ? `0 0 8px 2px var(--grid-glow-${level})` : "none",
-                animationName: level >= 3 ? "contributionPulse" : "none",
+                animationName: level >= 3 && !reducedMotion ? "contributionPulse" : "none",
                 animationDuration: `${2 + (wi % 3)}s`,
                 animationTimingFunction: "ease-in-out",
                 animationIterationCount: "infinite",
@@ -220,13 +293,22 @@ export default function ContributionGrid({ weeks }: Props) {
         }}
       />
 
-      {/* Left dial panel */}
+      {/* Left dial strip — desktop/tablet only; on phones it would eat ~36% of page-scroll width */}
       <div
         ref={panelRef}
-        className="absolute left-0 top-0 bottom-0"
-        style={{ width: "260px", pointerEvents: "auto" }}
-        onMouseEnter={() => setPanelHovered(true)}
-        onMouseLeave={handlePanelLeave}
+        className="absolute left-0 top-0 bottom-0 hidden sm:block"
+        style={{
+          width: `${STRIP_W}px`,
+          pointerEvents: "auto",
+          touchAction: "none",
+          userSelect: "none",
+        }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerEnd}
+        onPointerCancel={handlePointerEnd}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
       >
         {/* Always-visible range label */}
         {rangeOldest && (
@@ -239,7 +321,7 @@ export default function ContributionGrid({ weeks }: Props) {
               flexDirection: "column",
               gap: 2,
               opacity: panelHovered ? 0 : 0.85,
-              transition: "opacity 0.35s ease",
+              transition: reducedMotion ? "none" : "opacity 0.35s ease",
               zIndex: 1,
             }}
           >
@@ -267,15 +349,153 @@ export default function ContributionGrid({ weeks }: Props) {
           </div>
         )}
 
+        {/* The dial — hidden at rest, revealed on hover/touch */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             opacity: panelHovered ? 1 : 0,
-            transition: "opacity 0.35s ease",
+            transition: reducedMotion ? "none" : "opacity 0.35s ease",
+            perspective: "900px",
+            perspectiveOrigin: "left center",
           }}
         >
-          {/* Scroll hint */}
+          {/* Tilted dial plane */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              transform: "rotateY(-10deg)",
+              transformOrigin: "left center",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {/* Backdrop glow */}
+            <div
+              style={{
+                position: "absolute",
+                left: `calc(${DIAL_CX}px - ${DIAL_R})`,
+                top: `calc(50% - ${DIAL_R})`,
+                width: `calc(2 * ${DIAL_R})`,
+                height: `calc(2 * ${DIAL_R})`,
+                borderRadius: "50%",
+                background: "radial-gradient(circle, var(--grid-glow-4) 0%, transparent 68%)",
+                opacity: 0.35,
+              }}
+            />
+            {/* Outer rim */}
+            <div
+              style={{
+                position: "absolute",
+                left: `calc(${DIAL_CX}px - ${DIAL_R})`,
+                top: `calc(50% - ${DIAL_R})`,
+                width: `calc(2 * ${DIAL_R})`,
+                height: `calc(2 * ${DIAL_R})`,
+                borderRadius: "50%",
+                border: "1px solid var(--grid-glow-3)",
+              }}
+            />
+            {/* Inner rim */}
+            <div
+              style={{
+                position: "absolute",
+                left: `calc(${DIAL_CX}px - ${DIAL_R} + 26px)`,
+                top: `calc(50% - ${DIAL_R} + 26px)`,
+                width: `calc(2 * ${DIAL_R} - 52px)`,
+                height: `calc(2 * ${DIAL_R} - 52px)`,
+                borderRadius: "50%",
+                border: "1px solid var(--grid-glow-3)",
+                opacity: 0.5,
+              }}
+            />
+
+            {/* Notch pointing at the active detent */}
+            <div
+              style={{
+                position: "absolute",
+                left: `calc(${DIAL_CX}px + ${DIAL_R} - 30px)`,
+                top: "50%",
+                transform: "translateY(-50%)",
+                width: 0,
+                height: 0,
+                borderTop: "4px solid transparent",
+                borderBottom: "4px solid transparent",
+                borderLeft: "6px solid var(--grid-level-3)",
+              }}
+            />
+
+            {/* Rotor: ticks + labels rotate around the off-screen center */}
+            <div
+              style={{
+                position: "absolute",
+                left: DIAL_CX,
+                top: "50%",
+                width: 0,
+                height: 0,
+                transform: `rotate(${bounceDir * 3}deg)`,
+                transition: reducedMotion
+                  ? "none"
+                  : bounceDir !== 0
+                    ? "transform 0.08s ease-in"
+                    : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                transformStyle: "preserve-3d",
+              }}
+            >
+              {reversedLabels.map((label, i) => {
+                const slotIdx = i - windowTop;
+                const theta = (slotIdx - ACTIVE_SLOT) * STEP_DEG;
+                const t = Math.min(Math.abs(theta) / VISIBLE_DEG, 1);
+                const inView = slotIdx >= 0 && slotIdx < WIN_SIZE;
+                const opacity = inView ? 0.5 + 0.5 * (1 - t) : 0;
+                const z = -35 + 90 * Math.cos((t * Math.PI) / 2);
+                const scale = Math.max(0.72, 1 - 0.28 * t);
+                const isActive = slotIdx === ACTIVE_SLOT;
+
+                return (
+                  <div key={label.wi}>
+                    {/* Tick on the rim */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        width: 10,
+                        height: 1,
+                        backgroundColor: "var(--grid-level-3)",
+                        opacity: inView ? (isActive ? 0.9 : 0.25) : 0,
+                        transform: `rotate(${theta}deg) translateX(calc(${DIAL_R} - 16px))`,
+                        transformOrigin: "0 0",
+                        transition: arcTransition,
+                      }}
+                    />
+                    {/* Label riding the arc, counter-rotated to stay horizontal */}
+                    <span
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        top: 0,
+                        fontSize: isActive ? 12 : 10,
+                        fontFamily: "monospace",
+                        fontWeight: isActive ? 700 : 500,
+                        color: "var(--grid-level-3)",
+                        whiteSpace: "nowrap",
+                        letterSpacing: "0.04em",
+                        opacity,
+                        transform: `rotate(${theta}deg) translateX(calc(${DIAL_R} + 8px)) rotate(${-theta}deg) translateZ(${z}px) scale(${scale}) translateY(-50%)`,
+                        transformOrigin: "0 0",
+                        transition: arcTransition,
+                        backfaceVisibility: "hidden",
+                      }}
+                    >
+                      {label.text}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Interaction hint */}
           {timeLabels.length > WIN_SIZE && (
             <div
               style={{
@@ -288,96 +508,13 @@ export default function ContributionGrid({ weeks }: Props) {
                 opacity: 0.35,
                 letterSpacing: "0.12em",
                 textTransform: "uppercase" as const,
-                zIndex: 1,
               }}
             >
-              scroll
+              scroll · drag
             </div>
           )}
 
-          {/* Full-height sliding month list */}
-          <div style={{ position: "absolute", inset: 0, overflow: "hidden", perspective: "600px", perspectiveOrigin: "left 50%", transform: bounceLeft ? "translateX(-16px)" : "translateX(0)", transition: bounceLeft ? "transform 0.08s ease-in" : "transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-            <div
-              style={{
-                transform: `translateY(calc(-${windowTop} * (100vh / ${WIN_SIZE})))`,
-                transition: "transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                transformStyle: "preserve-3d",
-              }}
-            >
-              {reversedLabels.map((label, i) => {
-                const slotIdx = i - windowTop;
-                const inView = slotIdx >= 0 && slotIdx < WIN_SIZE;
-                const halfWin = Math.max((WIN_SIZE - 1) / 2, 1);
-                const dist = inView ? Math.abs(slotIdx - halfWin) / halfWin : 1;
-                const opacity = inView ? 0.6 + 0.4 * (1 - dist) : 0;
-
-                // Arc curve: center items protrude right, edge items pull left.
-                // cos curve gives a smooth round arc — dist=0 → offset=0, dist=1 → offset=-18px.
-                // Center items bow right (max indent), edges stay at base — nothing clips left.
-                const arcOffset = Math.round(Math.cos(dist * Math.PI * 0.5) * 160);
-                const scale = Math.max(0.72, 1 - dist * 0.28);
-                const angleDeg = (slotIdx - halfWin) * 9;
-                const angleRad = angleDeg * (Math.PI / 180);
-                const tz = Math.round(420 * (Math.cos(angleRad) - 1));
-
-                return (
-                  <div
-                    key={label.wi}
-                    style={{
-                      height: `calc(100vh / ${WIN_SIZE})`,
-                      display: "flex",
-                      alignItems: "center",
-                      paddingLeft: "24px",
-                      gap: "7px",
-                      opacity,
-                      transform: `rotateX(${angleDeg}deg) translateZ(${tz}px) translateX(${arcOffset}px) scale(${scale})`,
-                      transformOrigin: "left center",
-                      backfaceVisibility: "hidden",
-                      transition: "opacity 0.25s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 3,
-                        height: 3,
-                        borderRadius: "50%",
-                        backgroundColor: "var(--grid-level-3)",
-                        flexShrink: 0,
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontSize: 10,
-                        fontFamily: "monospace",
-                        fontWeight: 500,
-                        color: "var(--grid-level-3)",
-                        whiteSpace: "nowrap",
-                        letterSpacing: "0.04em",
-                      }}
-                    >
-                      {label.text}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Top/bottom fade mask */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                pointerEvents: "none",
-                background: `linear-gradient(to bottom,
-                rgba(var(--grid-overlay-rgb), 1) 0%,
-                rgba(var(--grid-overlay-rgb), 0) 5%,
-                rgba(var(--grid-overlay-rgb), 0) 95%,
-                rgba(var(--grid-overlay-rgb), 1) 100%)`,
-              }}
-            />
-          </div>
-
-          {/* Range label */}
+          {/* Range label (hover state) */}
           {rangeOldest && (
             <div
               style={{

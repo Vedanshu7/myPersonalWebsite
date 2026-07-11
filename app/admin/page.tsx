@@ -15,14 +15,22 @@ export default async function AdminPage() {
             </p>
             <h1 className="text-2xl font-bold text-white">Edit Content</h1>
           </div>
-          <form action={logoutAction}>
-            <button
-              type="submit"
-              className="font-mono text-xs text-muted-foreground hover:text-white transition-colors"
+          <div className="flex items-center gap-4">
+            <a
+              href="/admin/board"
+              className="font-mono text-xs text-muted-foreground hover:text-white transition-colors border border-neutral-800 hover:border-neutral-600 rounded px-3 py-1.5"
             >
-              Sign out
-            </button>
-          </form>
+              Scratchpad →
+            </a>
+            <form action={logoutAction}>
+              <button
+                type="submit"
+                className="font-mono text-xs text-muted-foreground hover:text-white transition-colors"
+              >
+                Sign out
+              </button>
+            </form>
+          </div>
         </div>
 
         <AdminForm content={content} saveAction={saveContentAction} />

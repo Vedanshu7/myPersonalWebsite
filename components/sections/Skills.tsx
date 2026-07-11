@@ -52,7 +52,7 @@ export default function Skills({ techStack }: SkillsProps) {
                   src={tech.icon}
                   alt={tech.name}
                   fill
-                  className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                  className="object-contain"
                   sizes="32px"
                   unoptimized={tech.icon.startsWith("http")}
                 />

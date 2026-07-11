@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "./providers";
 import ReadingProgress from "@/components/ReadingProgress";
 import BackToTop from "@/components/BackToTop";
+import CommandPalette from "@/components/CommandPalette";
 import JsonLd from "@/components/JsonLd";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ReadingProgress />
           {children}
           <BackToTop />
+          <CommandPalette />
         </ThemeProvider>
         <GoogleAnalytics />
       </body>

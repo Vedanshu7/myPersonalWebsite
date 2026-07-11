@@ -49,7 +49,7 @@ export default function Hero({ contributionWeeks }: HeroProps) {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(0,0,0,0.75) 0%, transparent 100%)",
+              "radial-gradient(ellipse 70% 50% at 50% 50%, rgba(var(--grid-overlay-rgb), 0.75) 0%, transparent 100%)",
             opacity: glowOpacity,
           }}
         />
@@ -153,11 +153,10 @@ export default function Hero({ contributionWeeks }: HeroProps) {
           target="_blank"
           rel="noopener noreferrer"
           className="absolute bottom-8 right-8 flex items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity"
+          style={{ color: "var(--grid-level-3)" }}
         >
-          <GithubIcon size={11} className="text-green-500" />
-          <span className="font-mono text-[10px] text-green-500 tracking-wide">
-            github activity
-          </span>
+          <GithubIcon size={11} />
+          <span className="font-mono text-[10px] tracking-wide">github activity</span>
         </a>
 
         {/* Scroll indicator */}

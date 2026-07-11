@@ -113,27 +113,6 @@ export const projects: Project[] = [
     technologyUsed: [{ name: "Python", img: "/technology-icon/python.svg" }],
   },
   {
-    title: "Book Recommendation System",
-    type: "Web Application",
-    projectURL: "book-rec",
-    projectImg: "/project-image/brs.png",
-    descriptionShort:
-      "An e-commerce website for books using collaborative and content-based filtering on 2M+ records.",
-    descriptionLong:
-      "Created an e-commerce website for books using collaborative and content-based filtering. Analyzed data by Pearson Correlation and Cosine Similarity on 2M+ records of users and books. Computed user similarity based on book rating data.",
-    button: {
-      viewCodeUrl: "https://github.com/Vedanshu7/Book-Recommendation-System",
-      viewProjectUrl: "",
-    },
-    technologyUsed: [
-      { name: "Python", img: "/technology-icon/python.svg" },
-      { name: "Django", img: "/technology-icon/django.svg" },
-      { name: "MongoDB", img: "/technology-icon/mongodb.svg" },
-      { name: "JWT", img: "/technology-icon/jwt.svg" },
-      { name: "Heroku", img: "/technology-icon/heroku.svg" },
-    ],
-  },
-  {
     title: "Eager Beavers Club Website",
     type: "Web Application",
     projectURL: "park-spot",
@@ -231,23 +210,23 @@ export const technologyList: Technology[] = [
   { name: "C#", icon: "/technology-icon/c-sharp.svg" },
   { name: "C++", icon: "/technology-icon/cplus.svg" },
   { name: "PHP", icon: "/technology-icon/php.svg" },
-  { name: "Go", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" },
+  { name: "Go", icon: "/technology-icon/go.svg" },
   { name: "React", icon: "/technology-icon/react.svg" },
   { name: "Node.js", icon: "/technology-icon/nodejs.svg" },
   {
     name: "Next.js",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+    icon: "/technology-icon/nextjs.svg",
   },
   { name: "Express.js", icon: "/technology-icon/express.svg" },
   { name: ".NET", icon: "/technology-icon/dotnet.svg" },
   { name: "Django", icon: "/technology-icon/django.svg" },
   {
     name: "Redux",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redux/redux-original.svg",
+    icon: "/technology-icon/redux.svg",
   },
   {
     name: "Tailwind CSS",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg",
+    icon: "/technology-icon/tailwindcss.svg",
   },
   { name: "Sass", icon: "/technology-icon/sass.svg" },
   { name: "MySQL", icon: "/technology-icon/mysql-official.svg" },
@@ -262,60 +241,60 @@ export const technologyList: Technology[] = [
   { name: "GitHub Actions", icon: "/technology-icon/github-actions.svg" },
   { name: "Jest", icon: "/technology-icon/jest.svg" },
   { name: "Azure", icon: "/technology-icon/azure.svg" },
-  { name: "AWS", icon: "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-ar21.svg" },
+  { name: "AWS", icon: "/technology-icon/aws.svg" },
   { name: "Heroku", icon: "/technology-icon/heroku.svg" },
   { name: "Git", icon: "/technology-icon/git-icon.svg" },
   { name: "Android", icon: "/technology-icon/android.svg" },
   { name: "Arduino", icon: "/technology-icon/arduino.svg" },
   { name: "Electron", icon: "/technology-icon/electron.svg" },
   { name: "Chrome Extension", icon: "/technology-icon/chrome.svg" },
-  { name: "RabbitMQ", icon: "https://www.vectorlogo.zone/logos/rabbitmq/rabbitmq-icon.svg" },
-  { name: "Kafka", icon: "https://www.vectorlogo.zone/logos/apache_kafka/apache_kafka-icon.svg" },
+  { name: "RabbitMQ", icon: "/technology-icon/rabbitmq.svg" },
+  { name: "Kafka", icon: "/technology-icon/kafka.svg" },
   {
     name: "Pandas",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg",
+    icon: "/technology-icon/pandas.svg",
   },
   {
     name: "NumPy",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
+    icon: "/technology-icon/numpy.svg",
   },
   {
     name: "FastAPI",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg",
+    icon: "/technology-icon/fastapi.svg",
   },
   {
     name: "Flask",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg",
+    icon: "/technology-icon/flask.svg",
   },
   {
     name: "Apache Airflow",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apacheairflow/apacheairflow-original.svg",
+    icon: "/technology-icon/airflow.svg",
   },
   {
     name: "scikit-learn",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg",
+    icon: "/technology-icon/scikit-learn.svg",
   },
   {
     name: "Prometheus",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg",
+    icon: "/technology-icon/prometheus.svg",
   },
   {
     name: "Grafana",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg",
+    icon: "/technology-icon/grafana.svg",
   },
   {
     name: "Kubernetes",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-original.svg",
+    icon: "/technology-icon/kubernetes.svg",
   },
   {
     name: "SQLite",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg",
+    icon: "/technology-icon/sqlite.svg",
   },
-  { name: "gRPC", icon: "https://www.vectorlogo.zone/logos/grpcio/grpcio-icon.svg" },
-  { name: "NATS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nats/nats-original.svg" },
+  { name: "gRPC", icon: "/technology-icon/grpc.svg" },
+  { name: "NATS", icon: "/technology-icon/nats.svg" },
   {
     name: "OpenTelemetry",
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opentelemetry/opentelemetry-original.svg",
+    icon: "/technology-icon/opentelemetry.svg",
   },
 ];
 
@@ -373,11 +352,11 @@ export const workEvents: TimelineEvent[] = [
   },
 ];
 
-const GCP_ICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg";
-const AWS_ICON = "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg";
-const GOOGLE_ICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg";
-const TOR_ICON = "https://www.vectorlogo.zone/logos/torproject/torproject-icon.svg";
-const COURSERA_ICON = "https://www.vectorlogo.zone/logos/coursera/coursera-icon.svg";
+const GCP_ICON = "/technology-icon/googlecloud.svg";
+const AWS_ICON = "/technology-icon/aws-mark.svg";
+const GOOGLE_ICON = "/technology-icon/google.svg";
+const TOR_ICON = "/technology-icon/tor.svg";
+const COURSERA_ICON = "/technology-icon/coursera.svg";
 
 export const certifications: Certification[] = [
   {

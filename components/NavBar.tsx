@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
+import { openCommandPalette } from "./CommandPalette";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -53,19 +54,19 @@ export default function NavBar() {
         scrolled ? "bg-background/80 backdrop-blur-md border-b border-border" : "bg-transparent",
       )}
     >
-      <nav className="max-w-5xl mx-auto px-6 h-14 flex items-center">
+      <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center gap-8">
         {/* Left — logo */}
         <div className="flex-1">
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="font-mono text-sm font-bold text-foreground tracking-widest hover:text-muted-foreground transition-colors"
+            className="font-mono text-sm font-bold text-foreground tracking-widest uppercase hover:text-muted-foreground transition-colors"
           >
             Home
           </button>
         </div>
 
         {/* Center — desktop nav links */}
-        <div className="hidden sm:flex items-center gap-5">
+        <div className="hidden sm:flex items-center gap-6 shrink-0">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.slice(1);
             return (
@@ -88,6 +89,42 @@ export default function NavBar() {
         {/* Right — theme toggle (desktop) + hamburger (mobile) */}
         <div className="flex-1 flex items-center justify-end">
           <div className="hidden sm:flex items-center gap-3">
+            <a
+              href="/admin"
+              className="font-mono text-xs tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Admin
+            </a>
+            <a
+              href="/admin/board"
+              className="font-mono text-xs tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Scratchpad
+            </a>
+            <div className="w-px h-3.5 bg-border" />
+            <button
+              onClick={openCommandPalette}
+              aria-label="Open command palette"
+              className="group flex items-center gap-2 w-36 xl:w-48 font-mono text-xs text-muted-foreground border border-border hover:border-foreground/30 bg-secondary/50 rounded-md px-2.5 py-1.5 transition-colors"
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                aria-hidden
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
+              <span className="flex-1 text-left group-hover:text-foreground transition-colors">
+                Search…
+              </span>
+              <kbd className="text-[9px] border border-border rounded px-1 py-px">⌘K</kbd>
+            </button>
             <div className="w-px h-3.5 bg-border" />
             <ThemeToggle />
           </div>
@@ -133,6 +170,19 @@ export default function NavBar() {
               {link.label}
             </button>
           ))}
+          <div className="h-px bg-border" />
+          <a
+            href="/admin"
+            className="font-mono text-sm text-muted-foreground hover:text-foreground transition-colors tracking-wide uppercase"
+          >
+            Admin
+          </a>
+          <a
+            href="/admin/board"
+            className="font-mono text-sm text-muted-foreground hover:text-foreground transition-colors tracking-wide uppercase"
+          >
+            Scratchpad
+          </a>
         </div>
       )}
     </header>

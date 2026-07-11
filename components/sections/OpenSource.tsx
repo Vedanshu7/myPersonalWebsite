@@ -16,18 +16,18 @@ function StateBadge({
   if (type === "pr") {
     if (state === "merged")
       return (
-        <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">
+        <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-600 dark:text-purple-400 border border-purple-500/20">
           <GitMerge size={9} /> Merged
         </span>
       );
     if (state === "open")
       return (
-        <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-green-500/10 text-green-400 border border-green-500/20">
+        <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-green-500/10 text-green-600 dark:text-green-400 border border-green-500/20">
           <GitPullRequest size={9} /> Open
         </span>
       );
     return (
-      <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-red-500/10 text-red-400 border border-red-500/20">
+      <span className="inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-red-500/10 text-red-600 dark:text-red-400 border border-red-500/20">
         <GitPullRequest size={9} /> Closed
       </span>
     );
@@ -37,7 +37,7 @@ function StateBadge({
     <span
       className={`inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-wider px-1.5 py-0.5 rounded border ${
         state === "open"
-          ? "bg-green-500/10 text-green-400 border-green-500/20"
+          ? "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20"
           : "bg-muted/30 text-muted-foreground border-border"
       }`}
     >
