@@ -5,13 +5,22 @@ import type { ContributionDay, ContributionWeek } from "@/app/api/contributions/
 import type { GithubStats } from "@/app/api/github-stats/route";
 
 /**
- * Searches GitHub issues/PRs for the configured user on external repos.
+ * Searches GitHub for issues/PRs the configured user took part in on external repos.
  *
  * @returns Filtered, sorted list of {@link OpenSourceItem} objects.
+ *
+ * @remarks
+ * Uses `involves:` rather than `author:` so issues the user commented on, was assigned,
+ * or was mentioned in count too — upstream issues are often where the work happens.
+ *
+ * `involves:` also matches PRs *other people* opened that the user merely reviewed. Those
+ * are dropped: rendering another person's PR title under "Open Source" would read as the
+ * user's own work. Issues are kept regardless of who opened them, since participating in
+ * one is the contribution.
  */
 export async function fetchOpenSourceItems(): Promise<OpenSourceItem[]> {
-  const query = `author:${env.GITHUB_USERNAME} -user:${env.GITHUB_USERNAME} is:public`;
-  const url = `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&sort=updated&order=desc&per_page=50`;
+  const query = `involves:${env.GITHUB_USERNAME} -user:${env.GITHUB_USERNAME} is:public`;
+  const url = `https://api.github.com/search/issues?q=${encodeURIComponent(query)}&sort=updated&order=desc&per_page=100`;
 
   const res = await fetch(url, {
     headers: {
@@ -26,7 +35,9 @@ export async function fetchOpenSourceItems(): Promise<OpenSourceItem[]> {
   const data = await res.json();
   const raw: Record<string, unknown>[] = data.items ?? [];
 
-  const items: OpenSourceItem[] = raw.map((item) => {
+  const me = env.GITHUB_USERNAME.toLowerCase();
+
+  const items = raw.map((item) => {
     const isPR = Boolean(item.pull_request);
     const repoUrl = String(item.repository_url ?? "").replace(
       "https://api.github.com/repos/",
@@ -41,19 +52,29 @@ export async function fetchOpenSourceItems(): Promise<OpenSourceItem[]> {
       if (pr.merged_at) state = "merged";
     }
 
+    const user = item.user as { login?: string } | undefined;
+    const authoredByMe = (user?.login ?? "").toLowerCase() === me;
+
     return {
-      id: Number(item.id),
-      type: isPR ? "pr" : "issue",
-      title: String(item.title ?? ""),
-      url: String(item.html_url ?? ""),
-      repo,
-      repoUrl,
-      state,
-      createdAt: String(item.created_at ?? ""),
-    } satisfies OpenSourceItem;
+      item: {
+        id: Number(item.id),
+        type: isPR ? "pr" : "issue",
+        title: String(item.title ?? ""),
+        url: String(item.html_url ?? ""),
+        repo,
+        repoUrl,
+        state,
+        createdAt: String(item.created_at ?? ""),
+      } satisfies OpenSourceItem,
+      isPR,
+      authoredByMe,
+    };
   });
 
-  const filtered = items.filter((item) => !(item.type === "pr" && item.state === "closed"));
+  const filtered = items
+    .filter(({ isPR, authoredByMe }) => !isPR || authoredByMe)
+    .map(({ item }) => item);
+
   filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   return filtered;
 }
