@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Ravel — FastAPI microservice with JWT auth, async SQLAlchemy, and Alembic migrations">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="3" fill="#10b981"/>
+
+  <text x="56" y="72" font-family="monospace" font-size="12" fill="#10b981" letter-spacing="4">REST API</text>
+  <text x="56" y="120" font-family="monospace" font-size="42" font-weight="bold" fill="#e6edf3">Ravel</text>
+  <text x="56" y="152" font-family="monospace" font-size="15" fill="#7d8590">FastAPI, async all the way down.</text>
+
+  <g font-family="monospace" font-size="11">
+    <rect x="56" y="196" width="128" height="34" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="120" y="217" text-anchor="middle" fill="#c9d1d9" font-size="10">/auth</text>
+    <rect x="56" y="240" width="128" height="34" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="120" y="261" text-anchor="middle" fill="#c9d1d9" font-size="10">/users</text>
+    <rect x="56" y="284" width="128" height="34" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="120" y="305" text-anchor="middle" fill="#c9d1d9" font-size="10">/items</text>
+
+    <path d="M184 213 H 222" stroke="#30363d" stroke-width="1.2"/>
+    <path d="M184 257 H 222" stroke="#30363d" stroke-width="1.2"/>
+    <path d="M184 301 H 222" stroke="#30363d" stroke-width="1.2"/>
+    <path d="M222 213 V 301" stroke="#30363d" stroke-width="1.2"/>
+    <path d="M222 257 H 246" stroke="#30363d" stroke-width="1.2"/>
+
+    <rect x="246" y="232" width="130" height="50" rx="6" fill="#0d1117" stroke="#10b981"/>
+    <text x="311" y="253" text-anchor="middle" fill="#10b981">FastAPI</text>
+    <text x="311" y="270" text-anchor="middle" fill="#484f58" font-size="9">JWT · jose</text>
+
+    <path d="M376 257 H 414" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="414" y="232" width="150" height="50" rx="6" fill="#161b22" stroke="#30363d"/>
+    <text x="489" y="253" text-anchor="middle" fill="#c9d1d9" font-size="11">async SQLAlchemy</text>
+    <text x="489" y="270" text-anchor="middle" fill="#484f58" font-size="9">asyncpg</text>
+
+    <path d="M564 257 H 602" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="602" y="232" width="94" height="50" rx="6" fill="#161b22" stroke="#30363d"/>
+    <text x="649" y="253" text-anchor="middle" fill="#c9d1d9" font-size="11">Postgres</text>
+    <text x="649" y="270" text-anchor="middle" fill="#484f58" font-size="9">Alembic</text>
+
+    <path d="M311 282 V 322" stroke="#30363d" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <rect x="246" y="322" width="130" height="34" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="311" y="343" text-anchor="middle" fill="#c9d1d9" font-size="10">Redis cache</text>
+  </g>
+
+  <g font-family="monospace" font-size="11" fill="#7d8590">
+    <rect x="56" y="392" width="60" height="22" rx="3" fill="#21262d"/><text x="86" y="407" text-anchor="middle">Python</text>
+    <rect x="124" y="392" width="68" height="22" rx="3" fill="#21262d"/><text x="158" y="407" text-anchor="middle">FastAPI</text>
+    <rect x="200" y="392" width="82" height="22" rx="3" fill="#21262d"/><text x="241" y="407" text-anchor="middle">PostgreSQL</text>
+    <rect x="290" y="392" width="46" height="22" rx="3" fill="#21262d"/><text x="313" y="407" text-anchor="middle">JWT</text>
+    <rect x="344" y="392" width="56" height="22" rx="3" fill="#21262d"/><text x="372" y="407" text-anchor="middle">Redis</text>
+  </g>
+</svg>

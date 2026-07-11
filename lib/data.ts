@@ -296,6 +296,10 @@ export const technologyList: Technology[] = [
     name: "OpenTelemetry",
     icon: "/technology-icon/opentelemetry.svg",
   },
+  { name: "Vite", icon: "/technology-icon/vite.svg" },
+  { name: "OpenCV", icon: "/technology-icon/opencv.svg" },
+  { name: "Fiber", icon: "/technology-icon/fiber.svg" },
+  { name: "TanStack Query", icon: "/technology-icon/tanstack-query.svg" },
 ];
 
 export const educationEvents: TimelineEvent[] = [

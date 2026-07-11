@@ -20,7 +20,7 @@ const DEFAULTS: EditableContent = {
   bio: "I'm a software engineer with a Master's from Purdue University, building full-stack products and the systems behind them, agentic AI workflows, data pipelines, and cloud-native services. I like owning the whole path: from the interface a user touches to the infrastructure that keeps it fast and reliable at scale.",
   yearsExperience: "4+",
   projectCount: "13+",
-  techCount: "53+",
+  techCount: "57+",
   workEvents: defaultWorkEvents,
   educationEvents: defaultEducationEvents,
   techStack: technologyList,

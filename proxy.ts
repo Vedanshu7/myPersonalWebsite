@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-/** Redirects unauthenticated requests to `/admin/*` routes to the login page. */
+/** Redirects unauthenticated requests to `/admin/*` and `/scratchpad` routes to the login page. */
 export default auth((req) => {
   const isLoginPage = req.nextUrl.pathname === "/admin/login";
 
@@ -13,5 +13,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/scratchpad/:path*"],
 };

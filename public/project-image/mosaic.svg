@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Mosaic — analytics dashboard built with React, TypeScript, and Recharts">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="3" fill="#f472b6"/>
+
+  <text x="56" y="72" font-family="monospace" font-size="12" fill="#f472b6" letter-spacing="4">WEB APPLICATION</text>
+  <text x="56" y="120" font-family="monospace" font-size="42" font-weight="bold" fill="#e6edf3">Mosaic</text>
+  <text x="56" y="152" font-family="monospace" font-size="15" fill="#7d8590">An analytics dashboard, tiled.</text>
+
+  <g font-family="monospace" font-size="10">
+    <!-- dashboard tile grid, mosaic-style -->
+    <rect x="56" y="196" width="200" height="90" rx="6" fill="#161b22" stroke="#30363d"/>
+    <polyline points="70,266 100,240 130,252 160,220 190,236 220,210" fill="none" stroke="#f472b6" stroke-width="1.5"/>
+    <text x="70" y="212" fill="#7d8590" font-size="9">revenue</text>
+
+    <rect x="264" y="196" width="140" height="90" rx="6" fill="#161b22" stroke="#30363d"/>
+    <rect x="278" y="250" width="16" height="24" fill="#f472b6" opacity="0.8"/>
+    <rect x="300" y="230" width="16" height="44" fill="#f472b6" opacity="0.6"/>
+    <rect x="322" y="242" width="16" height="32" fill="#f472b6" opacity="0.9"/>
+    <rect x="344" y="220" width="16" height="54" fill="#f472b6" opacity="0.5"/>
+    <rect x="366" y="234" width="16" height="40" fill="#f472b6" opacity="0.7"/>
+    <text x="278" y="212" fill="#7d8590" font-size="9">activity</text>
+
+    <rect x="416" y="196" width="120" height="90" rx="6" fill="#161b22" stroke="#30363d"/>
+    <circle cx="476" cy="245" r="30" fill="none" stroke="#f472b6" stroke-width="10" stroke-dasharray="70 118" stroke-linecap="round" transform="rotate(-90 476 245)"/>
+    <text x="430" y="212" fill="#7d8590" font-size="9">share</text>
+
+    <rect x="552" y="196" width="192" height="90" rx="6" fill="#161b22" stroke="#30363d"/>
+    <text x="566" y="216" fill="#7d8590" font-size="9">table</text>
+    <line x1="566" y1="228" x2="730" y2="228" stroke="#21262d"/>
+    <line x1="566" y1="246" x2="730" y2="246" stroke="#21262d"/>
+    <line x1="566" y1="264" x2="730" y2="264" stroke="#21262d"/>
+  </g>
+
+  <g font-family="monospace" font-size="11" fill="#7d8590">
+    <rect x="56" y="392" width="56" height="22" rx="3" fill="#21262d"/><text x="84" y="407" text-anchor="middle">React</text>
+    <rect x="118" y="392" width="94" height="22" rx="3" fill="#21262d"/><text x="165" y="407" text-anchor="middle">TypeScript</text>
+    <rect x="218" y="392" width="48" height="22" rx="3" fill="#21262d"/><text x="242" y="407" text-anchor="middle">Vite</text>
+    <rect x="272" y="392" width="92" height="22" rx="3" fill="#21262d"/><text x="318" y="407" text-anchor="middle">Tailwind CSS</text>
+    <rect x="370" y="392" width="112" height="22" rx="3" fill="#21262d"/><text x="426" y="407" text-anchor="middle">TanStack Query</text>
+  </g>
+</svg>

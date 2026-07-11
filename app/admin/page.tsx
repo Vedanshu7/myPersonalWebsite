@@ -17,7 +17,7 @@ export default async function AdminPage() {
           </div>
           <div className="flex items-center gap-4">
             <a
-              href="/admin/board"
+              href="/scratchpad"
               className="font-mono text-xs text-muted-foreground hover:text-white transition-colors border border-neutral-800 hover:border-neutral-600 rounded px-3 py-1.5"
             >
               Scratchpad →

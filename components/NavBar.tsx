@@ -96,7 +96,7 @@ export default function NavBar() {
               Admin
             </a>
             <a
-              href="/admin/board"
+              href="/scratchpad"
               className="font-mono text-xs tracking-wide uppercase text-muted-foreground hover:text-foreground transition-colors"
             >
               Scratchpad
@@ -178,7 +178,7 @@ export default function NavBar() {
             Admin
           </a>
           <a
-            href="/admin/board"
+            href="/scratchpad"
             className="font-mono text-sm text-muted-foreground hover:text-foreground transition-colors tracking-wide uppercase"
           >
             Scratchpad

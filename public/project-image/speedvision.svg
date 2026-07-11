@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="SpeedVision — real-time vehicle speed detection from highway footage using OpenCV">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="3" fill="#38bdf8"/>
+
+  <text x="56" y="72" font-family="monospace" font-size="12" fill="#38bdf8" letter-spacing="4">COMPUTER VISION</text>
+  <text x="56" y="120" font-family="monospace" font-size="42" font-weight="bold" fill="#e6edf3">SpeedVision</text>
+  <text x="56" y="152" font-family="monospace" font-size="15" fill="#7d8590">Per-lane vehicle tracking, in real time.</text>
+
+  <g font-family="monospace" font-size="11">
+    <!-- three lanes, each with a vehicle box crossing two detection lines -->
+    <rect x="56" y="200" width="640" height="52" rx="6" fill="#161b22" stroke="#30363d"/>
+    <line x1="220" y1="200" x2="220" y2="252" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="520" y1="200" x2="520" y2="252" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="330" y="212" width="60" height="28" rx="4" fill="#0d1117" stroke="#38bdf8"/>
+    <text x="360" y="230" text-anchor="middle" fill="#38bdf8" font-size="9">62 km/h</text>
+    <text x="66" y="222" fill="#484f58" font-size="10">lane 1</text>
+
+    <rect x="56" y="260" width="640" height="52" rx="6" fill="#161b22" stroke="#30363d"/>
+    <line x1="220" y1="260" x2="220" y2="312" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="520" y1="260" x2="520" y2="312" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="460" y="272" width="60" height="28" rx="4" fill="#0d1117" stroke="#ef4444"/>
+    <text x="490" y="290" text-anchor="middle" fill="#ef4444" font-size="9">98 km/h</text>
+    <text x="66" y="282" fill="#484f58" font-size="10">lane 2</text>
+
+    <rect x="56" y="320" width="640" height="52" rx="6" fill="#161b22" stroke="#30363d"/>
+    <line x1="220" y1="320" x2="220" y2="372" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+    <line x1="520" y1="320" x2="520" y2="372" stroke="#38bdf8" stroke-width="1" stroke-dasharray="3 3"/>
+    <rect x="150" y="332" width="60" height="28" rx="4" fill="#0d1117" stroke="#38bdf8"/>
+    <text x="180" y="350" text-anchor="middle" fill="#38bdf8" font-size="9">54 km/h</text>
+    <text x="66" y="342" fill="#484f58" font-size="10">lane 3</text>
+  </g>
+
+  <g font-family="monospace" font-size="11" fill="#7d8590">
+    <rect x="56" y="392" width="60" height="22" rx="3" fill="#21262d"/><text x="86" y="407" text-anchor="middle">Python</text>
+    <rect x="124" y="392" width="72" height="22" rx="3" fill="#21262d"/><text x="160" y="407" text-anchor="middle">OpenCV</text>
+  </g>
+</svg>

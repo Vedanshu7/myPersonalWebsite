@@ -17,14 +17,16 @@ const Excalidraw = dynamic(
   { ssr: false, loading: () => <p className="p-8 font-mono text-xs text-neutral-500">Loading canvas…</p> },
 );
 
-// Excalidraw fetches its fonts at runtime; pin them to the installed version.
+// Excalidraw fetches its fonts at runtime. Self-hosted under public/excalidraw-assets
+// (copied from node_modules by scripts/copy-excalidraw-fonts.mjs at install/build time)
+// so the canvas doesn't depend on unpkg.com being reachable during an interview.
 declare global {
   interface Window {
     EXCALIDRAW_ASSET_PATH?: string;
   }
 }
 if (typeof window !== "undefined") {
-  window.EXCALIDRAW_ASSET_PATH = "https://unpkg.com/@excalidraw/excalidraw@0.18.1/dist/prod/";
+  window.EXCALIDRAW_ASSET_PATH = "/excalidraw-assets/";
 }
 
 type ExcalidrawAPI = {
@@ -33,9 +35,15 @@ type ExcalidrawAPI = {
   getFiles: () => Record<string, unknown>;
 };
 
+type ExcalidrawUtils = {
+  serializeAsJSON: (els: never, state: never, files: never, type: "local") => string;
+  getSceneVersion: (els: readonly unknown[]) => number;
+};
+
 type SaveState = "saved" | "dirty" | "saving" | "error";
 
 const AUTOSAVE_MS = 4000;
+const UNBASELINED = -1;
 
 interface WhiteboardProps {
   initialBoards: BoardMeta[];
@@ -51,40 +59,105 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
 
   const apiRef = useRef<ExcalidrawAPI | null>(null);
+  const utilsRef = useRef<ExcalidrawUtils | null>(null);
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const serializeRef = useRef<((els: never, state: never, files: never, type: "local") => string) | null>(null);
-  const skipNextChange = useRef(true);
+  // Scene version of the last save; UNBASELINED right after a board loads, so the
+  // first onChange (which Excalidraw fires during mount) sets the baseline instead
+  // of marking a freshly loaded board dirty.
+  const savedVersionRef = useRef<number>(UNBASELINED);
+  const saveStateRef = useRef<SaveState>("saved");
 
-  // serializeAsJSON lives in the same client-only bundle as the component.
+  useEffect(() => {
+    saveStateRef.current = saveState;
+  }, [saveState]);
+
   useEffect(() => {
     import("@excalidraw/excalidraw").then((mod) => {
-      serializeRef.current = mod.serializeAsJSON as typeof serializeRef.current;
+      utilsRef.current = {
+        serializeAsJSON: mod.serializeAsJSON as ExcalidrawUtils["serializeAsJSON"],
+        getSceneVersion: mod.getSceneVersion as ExcalidrawUtils["getSceneVersion"],
+      };
     });
   }, []);
 
-  const loadBoard = useCallback(async (id: string, name: string) => {
-    setSceneReady(false);
-    setActiveId(id);
-    setBoardName(name);
-    setSaveState("saved");
-    skipNextChange.current = true;
-    const res = await loadBoardAction(id);
-    if (res.scene) {
-      try {
-        const parsed = JSON.parse(res.scene);
-        setInitialData({
-          elements: parsed.elements ?? [],
-          appState: { ...(parsed.appState ?? {}), collaborators: new Map() },
-          files: parsed.files ?? {},
-        });
-      } catch {
+  const cancelAutosave = useCallback(() => {
+    if (autosaveTimer.current) {
+      clearTimeout(autosaveTimer.current);
+      autosaveTimer.current = null;
+    }
+  }, []);
+
+  const doSave = useCallback(async () => {
+    const api = apiRef.current;
+    const utils = utilsRef.current;
+    if (!api || !utils || !activeId) return;
+
+    cancelAutosave();
+    setSaveState("saving");
+    saveStateRef.current = "saving";
+    const elements = api.getSceneElements();
+    const scene = utils.serializeAsJSON(
+      elements as never,
+      api.getAppState() as never,
+      api.getFiles() as never,
+      "local",
+    );
+    const res = await saveBoardAction(activeId, boardName || "Untitled", scene);
+    if (res.success) {
+      savedVersionRef.current = utils.getSceneVersion(elements);
+      setSaveState("saved");
+      saveStateRef.current = "saved";
+      setLastSavedAt(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+      const refreshed = await listBoardsAction();
+      if (refreshed.boards) setBoards(refreshed.boards);
+    } else {
+      setSaveState("error");
+      saveStateRef.current = "error";
+    }
+  }, [activeId, boardName, cancelAutosave]);
+
+  const doSaveRef = useRef(doSave);
+  useEffect(() => {
+    doSaveRef.current = doSave;
+  }, [doSave]);
+
+  const loadBoard = useCallback(
+    async (id: string, name: string) => {
+      // A pending autosave belongs to the board being left; never let it fire
+      // after activeId points at the new board.
+      cancelAutosave();
+      // Don't drop unsaved work on the outgoing board — doSaveRef still closes
+      // over the previous activeId/boardName at this point.
+      if (saveStateRef.current === "dirty" || saveStateRef.current === "error") {
+        await doSaveRef.current();
+      }
+
+      setSceneReady(false);
+      setActiveId(id);
+      setBoardName(name);
+      setSaveState("saved");
+      saveStateRef.current = "saved";
+      savedVersionRef.current = UNBASELINED;
+
+      const res = await loadBoardAction(id);
+      if (res.scene) {
+        try {
+          const parsed = JSON.parse(res.scene);
+          setInitialData({
+            elements: parsed.elements ?? [],
+            appState: { ...(parsed.appState ?? {}), collaborators: new Map() },
+            files: parsed.files ?? {},
+          });
+        } catch {
+          setInitialData(null);
+        }
+      } else {
         setInitialData(null);
       }
-    } else {
-      setInitialData(null);
-    }
-    setSceneReady(true);
-  }, []);
+      setSceneReady(true);
+    },
+    [cancelAutosave],
+  );
 
   useEffect(() => {
     if (initialBoards.length > 0) {
@@ -92,41 +165,19 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
     }
   }, [initialBoards, loadBoard]);
 
-  const doSave = useCallback(async () => {
-    const api = apiRef.current;
-    const serialize = serializeRef.current;
-    if (!api || !serialize || !activeId) return;
+  const handleChange = useCallback((elements: readonly unknown[]) => {
+    const utils = utilsRef.current;
+    if (!utils) return;
+    const version = utils.getSceneVersion(elements);
 
-    setSaveState("saving");
-    const scene = serialize(
-      api.getSceneElements() as never,
-      api.getAppState() as never,
-      api.getFiles() as never,
-      "local",
-    );
-    const res = await saveBoardAction(activeId, boardName || "Untitled", scene);
-    if (res.success) {
-      setSaveState("saved");
-      setLastSavedAt(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
-      const refreshed = await listBoardsAction();
-      if (refreshed.boards) setBoards(refreshed.boards);
-    } else {
-      setSaveState("error");
-    }
-  }, [activeId, boardName]);
-
-  const doSaveRef = useRef(doSave);
-  useEffect(() => {
-    doSaveRef.current = doSave;
-  }, [doSave]);
-
-  const handleChange = useCallback(() => {
-    // Excalidraw fires onChange during mount/scene-load; don't mark those dirty.
-    if (skipNextChange.current) {
-      skipNextChange.current = false;
+    if (savedVersionRef.current === UNBASELINED) {
+      savedVersionRef.current = version;
       return;
     }
-    setSaveState((s) => (s === "saving" ? s : "dirty"));
+    if (version === savedVersionRef.current || saveStateRef.current === "saving") return;
+
+    setSaveState("dirty");
+    saveStateRef.current = "dirty";
     if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
     autosaveTimer.current = setTimeout(() => void doSaveRef.current(), AUTOSAVE_MS);
   }, []);
@@ -138,9 +189,16 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
         void doSaveRef.current();
       }
     };
+    const onBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (saveStateRef.current === "dirty" || saveStateRef.current === "saving") {
+        e.preventDefault();
+      }
+    };
     window.addEventListener("keydown", onKey);
+    window.addEventListener("beforeunload", onBeforeUnload);
     return () => {
       window.removeEventListener("keydown", onKey);
+      window.removeEventListener("beforeunload", onBeforeUnload);
       if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
     };
   }, []);
@@ -160,6 +218,13 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
   const handleDelete = useCallback(async () => {
     if (!activeId) return;
     if (!window.confirm(`Delete "${boardName}"? This cannot be undone.`)) return;
+
+    // Kill any pending autosave and clear the dirty flag, or the deleted board
+    // would be flush-saved back into KV by loadBoard on the way out.
+    cancelAutosave();
+    setSaveState("saved");
+    saveStateRef.current = "saved";
+
     await deleteBoardAction(activeId);
     const refreshed = await listBoardsAction();
     const remaining = refreshed.boards ?? [];
@@ -170,9 +235,10 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
       setActiveId(null);
       setBoardName("");
       setInitialData(null);
+      savedVersionRef.current = UNBASELINED;
       setSceneReady(true);
     }
-  }, [activeId, boardName, loadBoard]);
+  }, [activeId, boardName, cancelAutosave, loadBoard]);
 
   const statusText = useMemo(() => {
     switch (saveState) {
@@ -191,10 +257,16 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
     <div className="h-screen flex flex-col bg-black">
       <header className="flex items-center gap-3 px-4 h-12 border-b border-neutral-800 shrink-0">
         <Link
+          href="/"
+          className="font-mono text-xs text-neutral-500 hover:text-white transition-colors"
+        >
+          ← Home
+        </Link>
+        <Link
           href="/admin"
           className="font-mono text-xs text-neutral-500 hover:text-white transition-colors"
         >
-          ← Admin
+          Admin
         </Link>
         <div className="w-px h-4 bg-neutral-800" />
 
@@ -219,6 +291,7 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
           onChange={(e) => {
             setBoardName(e.target.value);
             setSaveState("dirty");
+            saveStateRef.current = "dirty";
           }}
           placeholder="Board name"
           disabled={!activeId}

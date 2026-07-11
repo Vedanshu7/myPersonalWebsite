@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin/", "/api/"],
+        disallow: ["/admin/", "/scratchpad/", "/api/"],
       },
     ],
     sitemap: "https://vedanshujoshi.com/sitemap.xml",
