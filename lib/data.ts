@@ -29,6 +29,8 @@ export interface Certification {
   issuer: string;
   issued: string;
   credentialUrl: string;
+  /** Brand mark of the subject (Google Cloud, AWS, …); falls back to the Coursera mark. */
+  icon: string;
 }
 
 export const projects: Project[] = [
@@ -371,17 +373,60 @@ export const workEvents: TimelineEvent[] = [
   },
 ];
 
+const GCP_ICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg";
+const AWS_ICON = "https://www.vectorlogo.zone/logos/amazon_aws/amazon_aws-icon.svg";
+const GOOGLE_ICON = "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg";
+const TOR_ICON = "https://www.vectorlogo.zone/logos/torproject/torproject-icon.svg";
+const COURSERA_ICON = "https://www.vectorlogo.zone/logos/coursera/coursera-icon.svg";
+
 export const certifications: Certification[] = [
   {
-    title: "AWS Fundamentals: Going Cloud-Native",
+    title: "GCP Security Best Practices",
     issuer: "Coursera",
-    issued: "Apr 2020",
-    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/8FCEL3KYGY45",
+    issued: "Oct 2020",
+    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/C8PSBR7ZYMPY",
+    icon: GCP_ICON,
+  },
+  {
+    title: "Elastic GCP Infrastructure: Scaling & Automation",
+    issuer: "Coursera",
+    issued: "Jul 2020",
+    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/6LK77BFZMFHN",
+    icon: GCP_ICON,
   },
   {
     title: "Mitigating Security Vulnerabilities on Google Cloud Platform",
     issuer: "Coursera",
     issued: "Apr 2020",
     credentialUrl: "https://www.coursera.org/account/accomplishments/verify/UCXD24UA7RYT",
+    icon: GCP_ICON,
+  },
+  {
+    title: "AWS Fundamentals: Going Cloud-Native",
+    issuer: "Coursera",
+    issued: "Apr 2020",
+    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/8FCEL3KYGY45",
+    icon: AWS_ICON,
+  },
+  {
+    title: "IT Security: Defense against the Digital Dark Arts",
+    issuer: "Coursera",
+    issued: "May 2020",
+    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/Z5B8BPUKRX33",
+    icon: GOOGLE_ICON,
+  },
+  {
+    title: "Palo Alto Networks Cybersecurity Foundation",
+    issuer: "Coursera",
+    issued: "2020",
+    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/FA4ATNRBWUWN",
+    icon: COURSERA_ICON,
+  },
+  {
+    title: "Security & Privacy in TOR Network",
+    issuer: "Coursera",
+    issued: "Apr 2020",
+    credentialUrl: "https://www.coursera.org/account/accomplishments/verify/7D45EHQFRE66",
+    icon: TOR_ICON,
   },
 ];

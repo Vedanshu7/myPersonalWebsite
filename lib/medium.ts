@@ -19,9 +19,13 @@ function stripHtml(html: string): string {
 }
 
 /**
- * Fetches and parses the latest Medium posts for the configured user.
+ * Fetches and parses the Medium posts for the configured user.
  *
- * @returns Up to 4 {@link MediumPost} objects, or an empty array on failure.
+ * @returns Every {@link MediumPost} in the RSS feed, or an empty array on failure.
+ *
+ * @remarks
+ * Medium's RSS feed only exposes the most recent posts, so this is capped by the
+ * feed itself rather than by us.
  */
 export async function fetchMediumPosts(): Promise<MediumPost[]> {
   try {
@@ -33,7 +37,7 @@ export async function fetchMediumPosts(): Promise<MediumPost[]> {
     const xml = await res.text();
     const itemMatches = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/gi)];
 
-    return itemMatches.slice(0, 4).map((m) => {
+    return itemMatches.map((m) => {
       const item = m[1];
       const title = extractText(item, "title");
       const link =

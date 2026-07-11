@@ -1,7 +1,7 @@
 import "server-only";
 import { env } from "@/lib/env";
 import type { OpenSourceItem } from "@/app/api/open-source/route";
-import type { ContributionWeek } from "@/app/api/contributions/route";
+import type { ContributionDay, ContributionWeek } from "@/app/api/contributions/route";
 import type { GithubStats } from "@/app/api/github-stats/route";
 
 /**
@@ -57,6 +57,17 @@ export async function fetchOpenSourceItems(): Promise<OpenSourceItem[]> {
   filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   return filtered;
 }
+
+const CONTRIBUTION_YEARS_QUERY = `
+  query($username: String!) {
+    user(login: $username) {
+      createdAt
+      contributionsCollection {
+        contributionYears
+      }
+    }
+  }
+`;
 
 const CONTRIBUTIONS_QUERY = `
   query($username: String!, $from: DateTime!, $to: DateTime!) {
@@ -115,25 +126,93 @@ async function fetchContributionYear(from: string, to: string): Promise<Contribu
   }));
 }
 
+/** Asks GitHub when the account was created and which years it has contributions in. */
+async function fetchAccountRange(): Promise<{ years: number[]; createdAt: Date | null }> {
+  const res = await fetch("https://api.github.com/graphql", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: CONTRIBUTION_YEARS_QUERY,
+      variables: { username: env.GITHUB_USERNAME },
+    }),
+    next: { revalidate: 86400 },
+  });
+
+  if (!res.ok) return { years: [], createdAt: null };
+  const json = await res.json();
+  const user = json?.data?.user;
+  const years: number[] = user?.contributionsCollection?.contributionYears ?? [];
+  const createdAt = user?.createdAt ? new Date(user.createdAt) : null;
+  return { years: [...years].sort((a, b) => a - b), createdAt };
+}
+
 /**
- * Fetches the GitHub contribution calendar for the past two years.
+ * Regroups a flat day list into Sunday-aligned weeks.
  *
- * @returns Combined list of {@link ContributionWeek} objects in chronological order.
+ * @remarks
+ * Per-year calendars overlap at year boundaries (GitHub pads each calendar out to whole
+ * weeks), so days are deduped by date before chunking — otherwise boundary weeks would
+ * render twice.
+ */
+function groupIntoWeeks(days: ContributionDay[]): ContributionWeek[] {
+  const byDate = new Map<string, ContributionDay>();
+  for (const day of days) {
+    if (day.date) byDate.set(day.date, day);
+  }
+
+  const sorted = [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
+  if (sorted.length === 0) return [];
+
+  // Pad the first partial week so column 0 starts on a Sunday.
+  const leading = new Date(sorted[0].date + "T12:00:00").getDay();
+  const padded: ContributionDay[] = [
+    ...Array.from({ length: leading }, () => ({ date: "", count: 0, level: 0 as const })),
+    ...sorted,
+  ];
+
+  const weeks: ContributionWeek[] = [];
+  for (let i = 0; i < padded.length; i += 7) {
+    weeks.push({ days: padded.slice(i, i + 7) });
+  }
+  return weeks;
+}
+
+/**
+ * Fetches the full GitHub contribution calendar, from the user's first contribution
+ * year through today.
+ *
+ * @returns Every {@link ContributionWeek} in chronological order.
+ *
+ * @remarks
+ * GitHub's `contributionsCollection` accepts at most a one-year span, so each year is
+ * fetched separately and the results are stitched together.
  */
 export async function fetchContributionWeeks(): Promise<ContributionWeek[]> {
   try {
-    const today = new Date();
-    const oneYearAgo = new Date(today);
-    oneYearAgo.setFullYear(today.getFullYear() - 1);
-    const twoYearsAgo = new Date(today);
-    twoYearsAgo.setFullYear(today.getFullYear() - 2);
+    const { years, createdAt } = await fetchAccountRange();
+    if (years.length === 0) return [];
 
-    const [olderWeeks, newerWeeks] = await Promise.all([
-      fetchContributionYear(twoYearsAgo.toISOString(), oneYearAgo.toISOString()),
-      fetchContributionYear(oneYearAgo.toISOString(), today.toISOString()),
-    ]);
+    const now = new Date();
 
-    return [...olderWeeks, ...newerWeeks];
+    const perYear = await Promise.all(
+      years.map((year) => {
+        const yearStart = new Date(Date.UTC(year, 0, 1, 0, 0, 0));
+        const yearEnd = new Date(Date.UTC(year, 11, 31, 23, 59, 59));
+        // Don't render dead cells for the months before the account existed.
+        const from = createdAt && createdAt > yearStart ? createdAt : yearStart;
+        const to = yearEnd > now ? now : yearEnd;
+        return fetchContributionYear(from.toISOString(), to.toISOString());
+      }),
+    );
+
+    const days = perYear.flat().flatMap((w) => w.days);
+    const floor = createdAt ? createdAt.toISOString().slice(0, 10) : null;
+    const inRange = floor ? days.filter((d) => !d.date || d.date >= floor) : days;
+
+    return groupIntoWeeks(inRange);
   } catch {
     return [];
   }

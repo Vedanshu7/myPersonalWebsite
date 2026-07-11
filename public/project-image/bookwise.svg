@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Bookwise — Airflow Apriori pipeline precomputing book recommendations for a Flask app">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="3" fill="#f59e0b"/>
+
+  <text x="56" y="72" font-family="monospace" font-size="12" fill="#f59e0b" letter-spacing="4">DATA PIPELINE</text>
+  <text x="56" y="120" font-family="monospace" font-size="42" font-weight="bold" fill="#e6edf3">Bookwise</text>
+  <text x="56" y="152" font-family="monospace" font-size="15" fill="#7d8590">No ML on the request path.</text>
+
+  <g font-family="monospace" font-size="11">
+    <!-- airflow DAG (offline, daily) -->
+    <rect x="56" y="200" width="330" height="104" rx="8" fill="#0d1117" stroke="#f59e0b" stroke-dasharray="4 3"/>
+    <text x="70" y="220" fill="#f59e0b" font-size="10">AIRFLOW DAG · @daily</text>
+
+    <rect x="70" y="238" width="64" height="34" rx="4" fill="#161b22" stroke="#30363d"/>
+    <text x="102" y="259" text-anchor="middle" fill="#c9d1d9" font-size="10">extract</text>
+    <path d="M134 255 H 152" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="152" y="238" width="72" height="34" rx="4" fill="#161b22" stroke="#30363d"/>
+    <text x="188" y="259" text-anchor="middle" fill="#c9d1d9" font-size="10">apriori</text>
+    <path d="M224 255 H 242" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="242" y="238" width="56" height="34" rx="4" fill="#161b22" stroke="#30363d"/>
+    <text x="270" y="259" text-anchor="middle" fill="#c9d1d9" font-size="10">load</text>
+    <path d="M298 255 H 314" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="314" y="238" width="58" height="34" rx="4" fill="#161b22" stroke="#30363d"/>
+    <text x="343" y="259" text-anchor="middle" fill="#c9d1d9" font-size="10">clean</text>
+
+    <text x="70" y="292" fill="#484f58" font-size="10">Celery worker · Redis broker</text>
+
+    <!-- writes to mongo -->
+    <path d="M386 252 H 448" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M442 248 l6 4 -6 4z" fill="#30363d"/>
+    <text x="417" y="243" text-anchor="middle" fill="#484f58" font-size="9">writes</text>
+
+    <rect x="448" y="212" width="128" height="82" rx="6" fill="#0d1117" stroke="#30363d"/>
+    <text x="512" y="238" text-anchor="middle" fill="#c9d1d9">MongoDB</text>
+    <line x1="462" y1="250" x2="562" y2="250" stroke="#21262d"/>
+    <text x="512" y="268" text-anchor="middle" fill="#f59e0b" font-size="10">Recommend</text>
+    <text x="512" y="284" text-anchor="middle" fill="#484f58" font-size="9">assoc. rules</text>
+
+    <!-- flask reads -->
+    <path d="M576 252 H 638" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M632 248 l6 4 -6 4z" fill="#30363d"/>
+    <text x="607" y="243" text-anchor="middle" fill="#484f58" font-size="9">reads</text>
+
+    <rect x="638" y="220" width="106" height="66" rx="6" fill="#161b22" stroke="#30363d"/>
+    <text x="691" y="248" text-anchor="middle" fill="#c9d1d9">Flask</text>
+    <text x="691" y="268" text-anchor="middle" fill="#484f58" font-size="10">fast reads</text>
+  </g>
+
+  <g font-family="monospace" font-size="11" fill="#7d8590">
+    <rect x="56" y="392" width="60" height="22" rx="3" fill="#21262d"/><text x="86" y="407" text-anchor="middle">Python</text>
+    <rect x="124" y="392" width="48" height="22" rx="3" fill="#21262d"/><text x="148" y="407" text-anchor="middle">Flask</text>
+    <rect x="180" y="392" width="112" height="22" rx="3" fill="#21262d"/><text x="236" y="407" text-anchor="middle">Apache Airflow</text>
+    <rect x="300" y="392" width="72" height="22" rx="3" fill="#21262d"/><text x="336" y="407" text-anchor="middle">MongoDB</text>
+    <rect x="380" y="392" width="56" height="22" rx="3" fill="#21262d"/><text x="408" y="407" text-anchor="middle">Redis</text>
+  </g>
+</svg>
