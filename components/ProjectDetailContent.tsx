@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { Project } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import ProjectHeroImage from "@/components/ProjectHeroImage";
 import { ExternalLink, Github } from "lucide-react";
 
 export default function ProjectDetailContent({ project }: { project: Project }) {
@@ -16,13 +17,7 @@ export default function ProjectDetailContent({ project }: { project: Project }) 
       <h1 className="text-4xl font-bold text-white mb-6">{project.title}</h1>
 
       <div className="relative aspect-video rounded-xl overflow-hidden bg-secondary mb-10">
-        <Image
-          src={project.projectImg}
-          alt={project.title}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 768px"
-        />
+        <ProjectHeroImage src={project.projectImg} alt={project.title} />
       </div>
 
       <p className="text-muted-foreground leading-relaxed mb-10 text-base">

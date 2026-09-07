@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Facelock, Attendance from a webcam feed.">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="3" fill="#818cf8"/>
+
+  <text x="56" y="72" font-family="monospace" font-size="12" fill="#818cf8" letter-spacing="4">ML APPLICATION</text>
+  <text x="56" y="120" font-family="monospace" font-size="42" font-weight="bold" fill="#e6edf3">Facelock</text>
+  <text x="56" y="152" font-family="monospace" font-size="15" fill="#7d8590">Attendance from a webcam feed.</text>
+
+  <g font-family="monospace" font-size="11">
+    <rect x="56" y="214" width="118" height="52" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="115" y="240" text-anchor="middle" fill="#c9d1d9" font-size="11">webcam</text>
+    <text x="115" y="256" text-anchor="middle" fill="#484f58" font-size="10">live frames</text>
+    <path d="M174 240 H 212" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M206 236 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="212" y="196" width="150" height="92" rx="6" fill="#0d1117" stroke="#818cf8"/>
+    <text x="287" y="220" text-anchor="middle" fill="#818cf8" font-size="12">Haar cascade</text>
+    <line x1="226" y1="234" x2="348" y2="234" stroke="#21262d"/>
+    <text x="287" y="252" text-anchor="middle" fill="#7d8590" font-size="10">detect faces</text>
+    <text x="287" y="270" text-anchor="middle" fill="#7d8590" font-size="10">real time</text>
+    <path d="M362 240 H 400" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M394 236 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="400" y="214" width="140" height="52" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="470" y="240" text-anchor="middle" fill="#c9d1d9" font-size="11">match</text>
+    <text x="470" y="256" text-anchor="middle" fill="#484f58" font-size="10">trained encodings</text>
+    <path d="M540 240 H 578" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M572 236 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="578" y="214" width="166" height="52" rx="5" fill="#161b22" stroke="#818cf8"/>
+    <text x="661" y="240" text-anchor="middle" fill="#c9d1d9" font-size="11">attendance</text>
+    <text x="661" y="256" text-anchor="middle" fill="#484f58" font-size="10">timestamped row</text>
+    <rect x="56" y="300" width="306" height="40" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="209" y="320" text-anchor="middle" fill="#c9d1d9" font-size="11">training set</text>
+    <text x="209" y="336" text-anchor="middle" fill="#484f58" font-size="10">reference images encoded once</text>
+    <path d="M362 320 C 381 320, 381 266, 400 266" stroke="#30363d" stroke-width="1.5" fill="none"/>
+    <text x="578" y="358" text-anchor="start" fill="#484f58" font-size="10">exports to CSV</text>
+  </g>
+
+  <g font-family="monospace" font-size="11" fill="#7d8590">
+    <rect x="56" y="392" width="68" height="22" rx="3" fill="#21262d"/>
+    <text x="90" y="407" text-anchor="middle">Python</text>
+    <rect x="132" y="392" width="68" height="22" rx="3" fill="#21262d"/>
+    <text x="166" y="407" text-anchor="middle">OpenCV</text>
+    <rect x="208" y="392" width="61" height="22" rx="3" fill="#21262d"/>
+    <text x="238.5" y="407" text-anchor="middle">NumPy</text>
+  </g>
+</svg>

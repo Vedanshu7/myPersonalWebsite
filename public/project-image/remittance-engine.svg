@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Remittance Engine, Quote, order, settle. Or compensate.">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="3" fill="#38bdf8"/>
+
+  <text x="56" y="72" font-family="monospace" font-size="12" fill="#38bdf8" letter-spacing="4">DISTRIBUTED SYSTEM</text>
+  <text x="56" y="120" font-family="monospace" font-size="42" font-weight="bold" fill="#e6edf3">Remittance Engine</text>
+  <text x="56" y="152" font-family="monospace" font-size="15" fill="#7d8590">Quote, order, settle. Or compensate.</text>
+
+  <g font-family="monospace" font-size="11">
+    <rect x="56" y="214" width="110" height="52" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="111" y="240" text-anchor="middle" fill="#c9d1d9" font-size="11">quote</text>
+    <text x="111" y="256" text-anchor="middle" fill="#484f58" font-size="10">Redis TTL</text>
+    <path d="M166 240 H 204" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M198 236 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="204" y="214" width="118" height="52" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="263" y="240" text-anchor="middle" fill="#c9d1d9" font-size="11">order</text>
+    <text x="263" y="256" text-anchor="middle" fill="#484f58" font-size="10">claims quote</text>
+    <path d="M322 240 H 360" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M354 236 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="360" y="190" width="156" height="100" rx="6" fill="#0d1117" stroke="#38bdf8"/>
+    <text x="438" y="214" text-anchor="middle" fill="#38bdf8" font-size="12">payout saga</text>
+    <line x1="374" y1="228" x2="502" y2="228" stroke="#21262d"/>
+    <text x="438" y="246" text-anchor="middle" fill="#7d8590" font-size="10">reserve funds</text>
+    <text x="438" y="264" text-anchor="middle" fill="#7d8590" font-size="10">double-entry</text>
+    <path d="M516 214 C 543 214, 543 182, 570 182" stroke="#30363d" stroke-width="1.5" fill="none"/>
+    <path d="M564 178 l6 4 -6 4z" fill="#30363d"/>
+    <path d="M516 266 C 543 266, 543 300, 570 300" stroke="#30363d" stroke-width="1.5" fill="none"/>
+    <path d="M564 296 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="570" y="162" width="174" height="40" rx="5" fill="#161b22" stroke="#22c55e"/>
+    <text x="657" y="186" text-anchor="middle" fill="#22c55e" font-size="11">SETTLED</text>
+    <rect x="570" y="280" width="174" height="40" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="657" y="304" text-anchor="middle" fill="#7d8590" font-size="11">COMPENSATED</text>
+    <text x="657" y="334" text-anchor="middle" fill="#484f58" font-size="10">then dead-lettered</text>
+    <text x="56" y="320" text-anchor="start" fill="#484f58" font-size="10">Resilience4j retry with jitter, circuit breaker</text>
+    <text x="56" y="340" text-anchor="start" fill="#484f58" font-size="10">rate limited per user and per corridor</text>
+  </g>
+
+  <g font-family="monospace" font-size="11" fill="#7d8590">
+    <rect x="56" y="392" width="54" height="22" rx="3" fill="#21262d"/>
+    <text x="83" y="407" text-anchor="middle">Java</text>
+    <rect x="118" y="392" width="103" height="22" rx="3" fill="#21262d"/>
+    <text x="169.5" y="407" text-anchor="middle">Spring Boot</text>
+    <rect x="229" y="392" width="96" height="22" rx="3" fill="#21262d"/>
+    <text x="277" y="407" text-anchor="middle">PostgreSQL</text>
+    <rect x="333" y="392" width="61" height="22" rx="3" fill="#21262d"/>
+    <text x="363.5" y="407" text-anchor="middle">Redis</text>
+  </g>
+</svg>

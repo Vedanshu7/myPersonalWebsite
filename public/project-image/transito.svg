@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Transito, Campus buses, live.">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="3" fill="#a3e635"/>
+
+  <text x="56" y="72" font-family="monospace" font-size="12" fill="#a3e635" letter-spacing="4">MOBILE APPLICATION</text>
+  <text x="56" y="120" font-family="monospace" font-size="42" font-weight="bold" fill="#e6edf3">Transito</text>
+  <text x="56" y="152" font-family="monospace" font-size="15" fill="#7d8590">Campus buses, live.</text>
+
+  <g font-family="monospace" font-size="11">
+    <rect x="56" y="214" width="118" height="52" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="115" y="240" text-anchor="middle" fill="#c9d1d9" font-size="11">app</text>
+    <text x="115" y="256" text-anchor="middle" fill="#484f58" font-size="10">Android</text>
+    <path d="M174 240 H 212" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M206 236 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="212" y="196" width="146" height="92" rx="6" fill="#0d1117" stroke="#a3e635"/>
+    <text x="285" y="220" text-anchor="middle" fill="#a3e635" font-size="12">Retrofit</text>
+    <line x1="226" y1="234" x2="344" y2="234" stroke="#21262d"/>
+    <text x="285" y="252" text-anchor="middle" fill="#7d8590" font-size="10">routes · stops</text>
+    <text x="285" y="270" text-anchor="middle" fill="#7d8590" font-size="10">schedules</text>
+    <path d="M358 240 H 396" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M390 236 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="396" y="214" width="128" height="52" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="460" y="240" text-anchor="middle" fill="#c9d1d9" font-size="11">API</text>
+    <text x="460" y="256" text-anchor="middle" fill="#484f58" font-size="10">campus backend</text>
+    <path d="M524 226 C 551 226, 551 190, 578 190" stroke="#30363d" stroke-width="1.5" fill="none"/>
+    <path d="M572 186 l6 4 -6 4z" fill="#30363d"/>
+    <path d="M524 254 C 551 254, 551 296, 578 296" stroke="#30363d" stroke-width="1.5" fill="none"/>
+    <path d="M572 292 l6 4 -6 4z" fill="#30363d"/>
+    <rect x="578" y="170" width="166" height="40" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="661" y="194" text-anchor="middle" fill="#c9d1d9" font-size="11">OTP signup</text>
+    <rect x="578" y="276" width="166" height="40" rx="5" fill="#161b22" stroke="#a3e635"/>
+    <text x="661" y="300" text-anchor="middle" fill="#a3e635" font-size="11">session</text>
+    <text x="661" y="330" text-anchor="middle" fill="#484f58" font-size="10">SharedPreferences</text>
+    <rect x="56" y="300" width="302" height="40" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="207" y="320" text-anchor="middle" fill="#c9d1d9" font-size="11">LRU image cache</text>
+    <text x="207" y="336" text-anchor="middle" fill="#484f58" font-size="10">memory and file, for slow links</text>
+  </g>
+
+  <g font-family="monospace" font-size="11" fill="#7d8590">
+    <rect x="56" y="392" width="75" height="22" rx="3" fill="#21262d"/>
+    <text x="93.5" y="407" text-anchor="middle">Android</text>
+    <rect x="139" y="392" width="54" height="22" rx="3" fill="#21262d"/>
+    <text x="166" y="407" text-anchor="middle">Java</text>
+  </g>
+</svg>

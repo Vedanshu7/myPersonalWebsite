@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Health App, Clinical records across three services.">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="3" fill="#34d399"/>
+
+  <text x="56" y="72" font-family="monospace" font-size="12" fill="#34d399" letter-spacing="4">DISTRIBUTED SYSTEM</text>
+  <text x="56" y="120" font-family="monospace" font-size="42" font-weight="bold" fill="#e6edf3">Health App</text>
+  <text x="56" y="152" font-family="monospace" font-size="15" fill="#7d8590">Clinical records across three services.</text>
+
+  <g font-family="monospace" font-size="11">
+    <rect x="300" y="168" width="200" height="36" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="400" y="190" text-anchor="middle" fill="#c9d1d9" font-size="11">Angular dashboard</text>
+    <path d="M300 186 C 273 186, 273 226, 246 226" stroke="#30363d" stroke-width="1.5" fill="none"/>
+    <path d="M500 186 C 527 186, 527 226, 554 226" stroke="#30363d" stroke-width="1.5" fill="none"/>
+    <path d="M400 204 V 224" stroke="#30363d" stroke-width="1.5"/>
+    <rect x="56" y="224" width="168" height="56" rx="5" fill="#161b22" stroke="#34d399"/>
+    <text x="140" y="252" text-anchor="middle" fill="#c9d1d9" font-size="11">patient-service</text>
+    <text x="140" y="268" text-anchor="middle" fill="#484f58" font-size="10">JPA + raw JDBC</text>
+    <rect x="316" y="224" width="168" height="56" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="400" y="252" text-anchor="middle" fill="#c9d1d9" font-size="11">appointment</text>
+    <text x="400" y="268" text-anchor="middle" fill="#484f58" font-size="10">gRPC client</text>
+    <rect x="576" y="224" width="168" height="56" rx="5" fill="#161b22" stroke="#30363d"/>
+    <text x="660" y="252" text-anchor="middle" fill="#c9d1d9" font-size="11">reporting</text>
+    <text x="660" y="268" text-anchor="middle" fill="#484f58" font-size="10">read model</text>
+    <path d="M224 244 H 316" stroke="#30363d" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="270" y="238" text-anchor="middle" fill="#34d399" font-size="9">gRPC</text>
+    <path d="M484 244 H 576" stroke="#30363d" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="530" y="238" text-anchor="middle" fill="#34d399" font-size="9">gRPC</text>
+    <rect x="56" y="306" width="688" height="60" rx="6" fill="#0d1117" stroke="#34d399"/>
+    <text x="400" y="330" text-anchor="middle" fill="#34d399" font-size="12">RabbitMQ</text>
+    <line x1="70" y1="344" x2="730" y2="344" stroke="#21262d"/>
+    <text x="400" y="362" text-anchor="middle" fill="#7d8590" font-size="10">patient.events   ·   appointment.events</text>
+    <path d="M140 280 V 306" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M400 280 V 306" stroke="#30363d" stroke-width="1.5"/>
+    <path d="M660 306 V 280" stroke="#30363d" stroke-width="1.5"/>
+  </g>
+
+  <g font-family="monospace" font-size="11" fill="#7d8590">
+    <rect x="56" y="392" width="54" height="22" rx="3" fill="#21262d"/>
+    <text x="83" y="407" text-anchor="middle">Java</text>
+    <rect x="118" y="392" width="103" height="22" rx="3" fill="#21262d"/>
+    <text x="169.5" y="407" text-anchor="middle">Spring Boot</text>
+    <rect x="229" y="392" width="54" height="22" rx="3" fill="#21262d"/>
+    <text x="256" y="407" text-anchor="middle">gRPC</text>
+    <rect x="291" y="392" width="61" height="22" rx="3" fill="#21262d"/>
+    <text x="321.5" y="407" text-anchor="middle">MySQL</text>
+    <rect x="360" y="392" width="96" height="22" rx="3" fill="#21262d"/>
+    <text x="408" y="407" text-anchor="middle">Kubernetes</text>
+  </g>
+</svg>
