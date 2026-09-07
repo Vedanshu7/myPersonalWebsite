@@ -11,7 +11,7 @@ import type { GithubStats } from "@/app/api/github-stats/route";
  *
  * @remarks
  * Uses `involves:` rather than `author:` so issues the user commented on, was assigned,
- * or was mentioned in count too — upstream issues are often where the work happens.
+ * or was mentioned in count too. Upstream issues are often where the work happens.
  *
  * `involves:` also matches PRs *other people* opened that the user merely reviewed. Those
  * are dropped: rendering another person's PR title under "Open Source" would read as the
@@ -175,7 +175,7 @@ async function fetchAccountRange(): Promise<{ years: number[]; createdAt: Date |
  *
  * @remarks
  * Per-year calendars overlap at year boundaries (GitHub pads each calendar out to whole
- * weeks), so days are deduped by date before chunking — otherwise boundary weeks would
+ * weeks), so days are deduped by date before chunking, since otherwise boundary weeks would
  * render twice.
  */
 function groupIntoWeeks(days: ContributionDay[]): ContributionWeek[] {

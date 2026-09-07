@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { projects as staticProjects } from "@/lib/data";
 import type { Project } from "@/lib/data";
 
@@ -35,3 +36,8 @@ export function mergeProjects(kvProjects: Project[]): Project[] {
   const dedupedStatic = staticProjects.filter((p) => !kvUrls.has(p.projectURL));
   return [...kvProjects, ...dedupedStatic];
 }
+
+/** Static + KV projects merged, deduped by request via React's `cache` so repeat calls within one render don't refetch KV. */
+export const getMergedProjects = cache(async (): Promise<Project[]> => {
+  return mergeProjects(await getKVProjects());
+});

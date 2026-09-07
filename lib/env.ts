@@ -18,7 +18,7 @@ const serverSchema = z.object({
   KV_REST_API_URL: z.url(),
   KV_REST_API_TOKEN: z.string().min(1, "KV_REST_API_TOKEN is required"),
 
-  // Optional — injected by Vercel at runtime
+  // Optional, injected by Vercel at runtime
   VERCEL_URL: z.string().optional(),
 });
 
@@ -49,7 +49,7 @@ function parseEnv() {
 
   if (errors.length > 0) {
     console.error("❌ Invalid environment variables:\n" + errors.join("\n"));
-    throw new Error("Environment validation failed — check your .env.local");
+    throw new Error("Environment validation failed. Check your .env.local");
   }
 
   return {
@@ -58,5 +58,5 @@ function parseEnv() {
   };
 }
 
-// Validated at module load time — fails fast with clear errors.
+// Validated at module load time, fails fast with clear errors.
 export const env = parseEnv();

@@ -55,7 +55,7 @@ export default function NavBar() {
       )}
     >
       <nav className="max-w-7xl mx-auto px-6 h-16 flex items-center gap-8">
-        {/* Left — logo */}
+        {/* Left: logo */}
         <div className="flex-1">
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -65,7 +65,7 @@ export default function NavBar() {
           </button>
         </div>
 
-        {/* Center — desktop nav links */}
+        {/* Center: desktop nav links */}
         <div className="hidden sm:flex items-center gap-6 shrink-0">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.slice(1);
@@ -86,7 +86,7 @@ export default function NavBar() {
           })}
         </div>
 
-        {/* Right — theme toggle (desktop) + hamburger (mobile) */}
+        {/* Right: theme toggle (desktop) + hamburger (mobile) */}
         <div className="flex-1 flex items-center justify-end">
           <div className="hidden sm:flex items-center gap-3">
             <a

@@ -69,12 +69,14 @@ function resolveTech(name: string): { name: string; img: string } {
 
 // ── Map parsed frontmatter → Project ─────────────────────────────────────────
 
+function toStringList(value: unknown): string[] {
+  if (Array.isArray(value)) return value as string[];
+  if (typeof value === "string" && value) return [value];
+  return [];
+}
+
 function toProject(fm: Record<string, unknown>, owner: string, repo: string): Project {
-  const techNames = Array.isArray(fm.technologies)
-    ? (fm.technologies as string[])
-    : typeof fm.technologies === "string"
-      ? [fm.technologies]
-      : [];
+  const techNames = toStringList(fm.technologies);
 
   const projectImg =
     typeof fm.projectImg === "string" && fm.projectImg
@@ -93,6 +95,8 @@ function toProject(fm: Record<string, unknown>, owner: string, repo: string): Pr
       viewProjectUrl: String(fm.viewProjectUrl ?? ""),
     },
     technologyUsed: techNames.map(resolveTech),
+    features: toStringList(fm.features),
+    gallery: toStringList(fm.gallery),
   };
 }
 

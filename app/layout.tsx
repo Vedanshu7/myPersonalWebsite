@@ -6,6 +6,7 @@ import BackToTop from "@/components/BackToTop";
 import CommandPalette from "@/components/CommandPalette";
 import JsonLd from "@/components/JsonLd";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -18,7 +19,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const BASE = "https://vedanshujoshi.com";
+const BASE = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE),
@@ -87,7 +88,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+  modal,
+}: {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
@@ -95,6 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <JsonLd />
           <ReadingProgress />
           {children}
+          {modal}
           <BackToTop />
           <CommandPalette />
         </ThemeProvider>

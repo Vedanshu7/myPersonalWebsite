@@ -4,6 +4,7 @@ import {
   technologyList,
 } from "@/lib/data";
 import type { TimelineEvent, Technology } from "@/lib/data";
+import { CONTACT_EMAIL } from "@/lib/site";
 
 export interface EditableContent {
   bio: string;
@@ -24,7 +25,7 @@ const DEFAULTS: EditableContent = {
   workEvents: defaultWorkEvents,
   educationEvents: defaultEducationEvents,
   techStack: technologyList,
-  contactEmail: "vedanshu7.joshi@gmail.com",
+  contactEmail: CONTACT_EMAIL,
 };
 
 /** Reads editable site content from KV; falls back to hardcoded defaults on any failure. */

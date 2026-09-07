@@ -1,10 +1,12 @@
+import { SITE_URL } from "@/lib/site";
+
 export default function JsonLd() {
   const person = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Vedanshu Joshi",
-    url: "https://vedanshujoshi.com",
-    image: "https://vedanshujoshi.com/opengraph-image",
+    url: SITE_URL,
+    image: `${SITE_URL}/opengraph-image`,
     jobTitle: "Software Engineer",
     alumniOf: {
       "@type": "CollegeOrUniversity",
@@ -34,9 +36,9 @@ export default function JsonLd() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Vedanshu Joshi",
-    url: "https://vedanshujoshi.com",
+    url: SITE_URL,
     description:
-      "Portfolio of Vedanshu Joshi — Software Engineer, MS Computer Science Purdue University.",
+      "Portfolio of Vedanshu Joshi: Software Engineer, MS Computer Science Purdue University.",
     author: { "@type": "Person", name: "Vedanshu Joshi" },
   };
 

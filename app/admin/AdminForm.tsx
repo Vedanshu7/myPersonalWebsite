@@ -290,7 +290,7 @@ export default function AdminForm({ content, saveAction }: Props) {
         </Button>
         {result?.success && (
           <span className="flex items-center gap-1.5 font-mono text-xs text-green-400">
-            <Check size={13} /> Published — homepage updated
+            <Check size={13} /> Published: homepage updated
           </span>
         )}
         {result?.error && (

@@ -1,11 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import type { Project } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { ExternalLink, ArrowUpRight } from "lucide-react";
 
 function GithubIcon({ size = 13, className }: { size?: number; className?: string }) {
@@ -26,19 +28,28 @@ function GithubIcon({ size = 13, className }: { size?: number; className?: strin
 interface ProjectCardProps {
   project: Project;
   index: number;
+  autoOpen?: boolean;
 }
 
 const FALLBACK_IMG = "/project-image/fallback.svg";
 
-export default function ProjectCard({ project, index }: ProjectCardProps) {
-  const [open, setOpen] = useState(false);
+export default function ProjectCard({ project, index, autoOpen }: ProjectCardProps) {
+  const [open, setOpen] = useState(autoOpen ?? false);
   const [imgSrc, setImgSrc] = useState(project.projectImg);
+  const pathname = usePathname();
+
+  // While the full-screen detail route is open on top, keep this dialog frozen so it is
+  // still here when the user comes back instead of dismissing itself to the overlay's clicks.
+  const detailOpen = pathname === `/project/${project.projectURL}`;
+  const freeze = (e: Event) => {
+    if (detailOpen) e.preventDefault();
+  };
 
   return (
     <>
       <button
         onClick={() => setOpen(true)}
-        className="group text-left w-full border border-border rounded-xl overflow-hidden bg-card hover:border-foreground/20 transition-all duration-300 hover:-translate-y-1"
+        className="group text-left w-full border border-t-2 border-border border-t-foreground/30 rounded-xl overflow-hidden bg-card hover:border-foreground/20 transition-all duration-300 hover:-translate-y-1"
       >
         <div className="relative aspect-video overflow-hidden bg-secondary">
           <Image
@@ -86,8 +97,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
       </button>
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-2xl p-0 overflow-hidden gap-0 max-h-[90vh] flex flex-col">
+      <Dialog open={open} onOpenChange={setOpen} modal={!detailOpen}>
+        <DialogContent
+          className="max-w-2xl p-0 overflow-hidden gap-0 max-h-[90vh] flex flex-col"
+          onInteractOutside={freeze}
+          onEscapeKeyDown={freeze}
+        >
           {/* Hero image with title overlay */}
           <div className="relative w-full shrink-0" style={{ aspectRatio: "16/7" }}>
             <Image
@@ -111,9 +126,9 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
 
           {/* Content */}
           <div className="overflow-y-auto flex flex-col gap-5 p-6">
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <DialogDescription className="text-sm text-muted-foreground leading-relaxed">
               {project.descriptionLong}
-            </p>
+            </DialogDescription>
 
             <div>
               <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em] mb-3">
@@ -131,7 +146,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
                         alt={tech.name}
                         width={14}
                         height={14}
-                        className="object-contain"
+                        className="object-contain shrink-0 h-3.5 w-3.5"
                       />
                     )}
                     <span className="font-mono text-[11px] text-foreground/70">
@@ -143,6 +158,12 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
             </div>
 
             <div className="flex gap-3 pt-4 border-t border-border">
+              <Button size="sm" variant="ghost" className="rounded-full font-mono text-xs gap-1.5" asChild>
+                <Link href={`/project/${project.projectURL}`} scroll={false}>
+                  Learn more
+                  <ArrowUpRight size={13} />
+                </Link>
+              </Button>
               {project.button.viewCodeUrl && (
                 <Button
                   size="sm"

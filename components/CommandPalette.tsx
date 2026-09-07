@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useTheme } from "next-themes";
+import { CONTACT_EMAIL } from "@/lib/site";
 import {
   User,
   FolderGit2,
@@ -70,11 +71,11 @@ export default function CommandPalette() {
       {
         id: "copy-email",
         label: copied ? "Copied!" : "Copy email address",
-        hint: "vedanshu7.joshi@gmail.com",
+        hint: CONTACT_EMAIL,
         icon: <Copy size={15} />,
         keywords: "copy email mail address",
         run: () => {
-          navigator.clipboard.writeText("vedanshu7.joshi@gmail.com").then(() => {
+          navigator.clipboard.writeText(CONTACT_EMAIL).then(() => {
             setCopied(true);
             setTimeout(() => {
               setCopied(false);

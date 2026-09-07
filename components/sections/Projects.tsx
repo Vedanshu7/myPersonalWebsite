@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Project } from "@/lib/data";
 import ProjectCard from "@/components/ProjectCard";
@@ -32,8 +33,20 @@ interface ProjectsProps {
 }
 
 export default function Projects({ projects }: ProjectsProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const openSlug = searchParams.get("openProject");
+
   const [activeTech, setActiveTech] = useState<string | null>(null);
-  const [showAll, setShowAll] = useState(false);
+  const [showAll, setShowAll] = useState(() =>
+    openSlug ? projects.some((p) => p.projectURL === openSlug) : false,
+  );
+
+  // Clear the query param once read so it doesn't reopen the modal on a later refresh.
+  useEffect(() => {
+    if (openSlug) router.replace("/#projects", { scroll: false });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Most-used technologies become filter chips, displayed with their first-seen label.
   const chips = useMemo(() => {
@@ -121,7 +134,11 @@ export default function Projects({ projects }: ProjectsProps) {
                 exit={{ opacity: 0, scale: 0.96, transition: { duration: 0.2 } }}
                 viewport={{ once: true, margin: "-80px" }}
               >
-                <ProjectCard project={project} index={index} />
+                <ProjectCard
+                  project={project}
+                  index={index}
+                  autoOpen={project.projectURL === openSlug}
+                />
               </motion.div>
             ))}
           </AnimatePresence>

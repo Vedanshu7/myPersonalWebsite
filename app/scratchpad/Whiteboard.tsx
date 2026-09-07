@@ -126,7 +126,7 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
       // A pending autosave belongs to the board being left; never let it fire
       // after activeId points at the new board.
       cancelAutosave();
-      // Don't drop unsaved work on the outgoing board — doSaveRef still closes
+      // Don't drop unsaved work on the outgoing board, doSaveRef still closes
       // over the previous activeId/boardName at this point.
       if (saveStateRef.current === "dirty" || saveStateRef.current === "error") {
         await doSaveRef.current();
@@ -247,7 +247,7 @@ export default function Whiteboard({ initialBoards }: WhiteboardProps) {
       case "dirty":
         return "Unsaved changes";
       case "error":
-        return "Save failed — retry with ⌘S";
+        return "Save failed, retry with ⌘S";
       default:
         return lastSavedAt ? `Saved · ${lastSavedAt}` : "Saved";
     }

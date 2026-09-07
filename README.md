@@ -23,12 +23,12 @@ Live: [vedanshujoshi.com](https://vedanshujoshi.com)
 
 ## Features
 
-- **GitHub contribution grid** — fetches 2 years of contribution data via GitHub GraphQL API
-- **Dynamic projects** — static projects in `lib/data.ts` + KV-stored projects pushed via GitHub webhook
-- **GitHub webhook** — push a `website.md` to any repo and it auto-upserts to the portfolio
-- **Medium feed** — latest posts pulled from RSS and shown in the Writing section
-- **Open-source contributions** — GitHub Search API shows PRs and issues on external repos
-- **Full SEO** — `sitemap.xml`, `robots.txt`, PWA manifest, JSON-LD structured data, OG and Twitter cards
+- **GitHub contribution grid**: fetches 2 years of contribution data via GitHub GraphQL API
+- **Dynamic projects**: static projects in `lib/data.ts` + KV-stored projects pushed via GitHub webhook
+- **GitHub webhook**: push a `website.md` to any repo and it auto-upserts to the portfolio
+- **Medium feed**: latest posts pulled from RSS and shown in the Writing section
+- **Open-source contributions**: GitHub Search API shows PRs and issues on external repos
+- **Full SEO**: `sitemap.xml`, `robots.txt`, PWA manifest, JSON-LD structured data, OG and Twitter cards
 
 ---
 
@@ -38,10 +38,10 @@ Live: [vedanshujoshi.com](https://vedanshujoshi.com)
 app/
   actions/        Server Actions (save content, logout)
   admin/          Admin dashboard and login page
-  api/            Route handlers — contributions, github-stats, medium, open-source, webhook
+  api/            Route handlers: contributions, github-stats, medium, open-source, webhook
   project/        Dynamic [projectName] page
   layout.tsx      Root layout, metadata, fonts, providers
-  page.tsx        Home page — async server component
+  page.tsx        Home page: async server component
   globals.css     CSS variables and global utilities
 
 components/
@@ -49,7 +49,7 @@ components/
   ui/             Headless Radix-based UI primitives
   *.tsx           Layout-level components (NavBar, Footer, ScrollReveal, etc.)
 
-hooks/            usePinnedScroll — scroll-linked animation values
+hooks/            usePinnedScroll: scroll-linked animation values
 lib/
   data.ts         Static project/timeline/tech data and all shared types
   env.ts          Zod-validated environment variables (server-only)
@@ -80,9 +80,9 @@ cp .env.example .env.local
 
 | Variable | How to get it |
 |---|---|
-| `GITHUB_TOKEN` | [github.com/settings/tokens](https://github.com/settings/tokens) — fine-grained PAT with `read:user` scope |
+| `GITHUB_TOKEN` | [github.com/settings/tokens](https://github.com/settings/tokens), fine-grained PAT with `read:user` scope |
 | `GITHUB_USERNAME` | Your GitHub username |
-| `GITHUB_WEBHOOK_SECRET` | Any random secret — `openssl rand -hex 20` |
+| `GITHUB_WEBHOOK_SECRET` | Any random secret: `openssl rand -hex 20` |
 | `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Vercel dashboard → Storage → KV |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 measurement ID (optional) |
 | `NEXT_PUBLIC_FORMSPREE_URL` | [formspree.io](https://formspree.io) form endpoint |

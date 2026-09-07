@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site";
 
 /** Returns the robots.txt rules for the site, blocking admin and API routes from crawlers. */
 export default function robots(): MetadataRoute.Robots {
@@ -10,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/scratchpad/", "/api/"],
       },
     ],
-    sitemap: "https://vedanshujoshi.com/sitemap.xml",
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

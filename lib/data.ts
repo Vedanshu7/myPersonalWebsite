@@ -15,6 +15,10 @@ export interface Project {
     viewProjectUrl: string;
   };
   technologyUsed: { name: string; img: string }[];
+  /** Additional screenshots shown only on the standalone project detail page. */
+  gallery?: string[];
+  /** Key feature bullets shown only on the standalone project detail page. */
+  features?: string[];
 }
 
 export interface TimelineEvent {
@@ -63,7 +67,7 @@ export const projects: Project[] = [
     projectURL: "frav",
     projectImg: "/project-image/appoint-meet.png",
     descriptionShort:
-      "FRAV — an advanced Project Management System engineered to streamline workflows and enhance collaboration.",
+      "FRAV, an advanced Project Management System engineered to streamline workflows and enhance collaboration.",
     descriptionLong:
       "FRAV, an advanced Project Management System, is engineered to streamline project workflows and enhance collaboration. Leveraging a modern tech stack, FRAV employs Node.js for the backend, React for the frontend, and incorporates Sequelize, Redux, JWT authentication. Designed as a single-page application (SPA).",
     button: {
@@ -158,7 +162,7 @@ export const projects: Project[] = [
     descriptionShort:
       "An Android + Arduino IoT project for controlling home appliances in real-time.",
     descriptionLong:
-      "Experience the future of home living with our Home Automation Using IoT project — a seamless integration of an Android application and IoT technology. This innovative application empowers users to control their home appliances effortlessly, responding to their actions in real-time. Powered by Arduino and Android, with a timer feature for scheduled operations.",
+      "Experience the future of home living with our Home Automation Using IoT project, a seamless integration of an Android application and IoT technology. This innovative application empowers users to control their home appliances effortlessly, responding to their actions in real-time. Powered by Arduino and Android, with a timer feature for scheduled operations.",
     button: {
       viewCodeUrl: "https://github.com/Vedanshu7/Home-Automation-Using-IOT-Android",
       viewProjectUrl: "",

@@ -14,7 +14,7 @@ import Footer from "@/components/Footer";
 import PageWrapper from "@/components/PageWrapper";
 import SectionSkeleton from "@/components/SectionSkeleton";
 import { getEditableContent } from "@/lib/content";
-import { getKVProjects, mergeProjects } from "@/lib/projects";
+import { getMergedProjects } from "@/lib/projects";
 import { fetchContributionWeeks, fetchOpenSourceItems, fetchGithubStats } from "@/lib/github";
 
 async function HeroSection() {
@@ -33,8 +33,7 @@ async function OpenSourceSection() {
 }
 
 async function MainContent() {
-  const [content, kvProjects] = await Promise.all([getEditableContent(), getKVProjects()]);
-  const projects = mergeProjects(kvProjects);
+  const [content, projects] = await Promise.all([getEditableContent(), getMergedProjects()]);
 
   return (
     <>

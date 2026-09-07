@@ -246,7 +246,7 @@ export default function ContributionGrid({ weeks }: Props) {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      {/* Contribution cells — only the selected window's data */}
+      {/* Contribution cells: only the selected window's data */}
       <div className="absolute inset-0" style={{ opacity: 0.5, padding: "24px" }}>
         <div
           style={{
@@ -293,7 +293,7 @@ export default function ContributionGrid({ weeks }: Props) {
         }}
       />
 
-      {/* Left dial strip — desktop/tablet only; on phones it would eat ~36% of page-scroll width */}
+      {/* Left dial strip: desktop/tablet only; on phones it would eat ~36% of page-scroll width */}
       <div
         ref={panelRef}
         className="absolute left-0 top-0 bottom-0 hidden sm:block"
@@ -349,7 +349,7 @@ export default function ContributionGrid({ weeks }: Props) {
           </div>
         )}
 
-        {/* The dial — hidden at rest, revealed on hover/touch */}
+        {/* The dial: hidden at rest, revealed on hover/touch */}
         <div
           style={{
             position: "absolute",

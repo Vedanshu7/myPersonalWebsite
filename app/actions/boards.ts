@@ -37,7 +37,7 @@ export async function saveBoardAction(
     return { success: true };
   } catch (err) {
     console.error("[boards] save failed:", err);
-    return { error: "Save failed — the board may be too large for KV" };
+    return { error: "Save failed, the board may be too large for KV" };
   }
 }
 
